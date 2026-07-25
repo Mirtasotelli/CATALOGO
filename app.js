@@ -103,10 +103,7 @@ function generarBotonesCategorias() {
 
     contenedor.innerHTML = categorias.map(cat => `
         <button onclick="seleccionarCategoria('${cat}')" 
-                class="btn-categoria text-xs font-bold px-3.5 py-1.5 rounded-full whitespace-nowrap transition-all ${cat === categoriaActiva ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}">
-            ${cat}
-        </button>
-    `).join('');
+                class="btn-categoria text-xs font-bold px-3.5 py-1.5 rounded-full whitespace-nowrap transition-all ${cat === categoriaActiva ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-600 [...]\n            ${cat}\n        </button>\n    `).join('');
 }
 
 function seleccionarCategoria(cat) {
@@ -154,7 +151,7 @@ function dibujarProductos(lista) {
         const tieneStock = esStockNumerico ? cantidadStock > 0 : (stockTxt === 'si' || stockTxt === 'disponible');
 
         const botonHTML = tieneStock 
-            ? `<button onclick="event.stopPropagation(); agregarAlCarrito('${prod.id}', 1)" class="bg-slate-900 hover:bg-slate-800 text-white px-3 py-1.5 rounded-xl text-xs font-bold transition-transform active:scale-95 z-20 relative">Sumar</button>`
+            ? `<button onclick="event.stopPropagation(); agregarAlCarrito('${prod.id}', 1)" class="bg-slate-900 hover:bg-slate-800 text-white px-3 py-1.5 rounded-xl text-xs font-bold transition-transf[...]
             : `<button disabled class="bg-slate-100 text-slate-400 px-3 py-1.5 rounded-xl text-xs font-bold cursor-not-allowed z-20 relative">Agotado</button>`;
 
         let cartelUrgencia = '';
@@ -181,7 +178,7 @@ function dibujarProductos(lista) {
             : ``;
 
         contenedor.innerHTML += `
-            <div onclick="abrirModal('${prod.id}')" class="bg-white p-3.5 sm:p-4 rounded-2xl shadow-sm border border-slate-200/80 flex flex-col justify-between cursor-pointer hover:shadow-md hover:border-slate-300 transition-all group relative">
+            <div onclick="abrirModal('${prod.id}')" class="bg-white p-3.5 sm:p-4 rounded-2xl shadow-sm border border-slate-200/80 flex flex-col justify-between cursor-pointer hover:shadow-md hover:bor[...]
                 ${cartelUrgencia}
                 <div>
                     <div class="relative overflow-hidden rounded-xl bg-slate-50 mb-3 h-36 sm:h-44 group-hover:scale-105 transition-transform duration-300">
@@ -234,10 +231,7 @@ function abrirModal(id) {
         galeriaContenedor.classList.remove('hidden');
         arrayImagenes.forEach((imgSrc) => {
             galeriaContenedor.innerHTML += `
-                <button onclick="cambiarFotoModal('${imgSrc}')" class="w-14 h-14 shrink-0 rounded-lg overflow-hidden border-2 border-transparent hover:border-slate-900 focus:border-slate-900 transition-all bg-slate-100">
-                    <img src="${imgSrc}" class="w-full h-full object-cover">
-                </button>
-            `;
+                <button onclick="cambiarFotoModal('${imgSrc}')" class="w-14 h-14 shrink-0 rounded-lg overflow-hidden border-2 border-transparent hover:border-slate-900 focus:border-slate-900 transitio[...]\n                    <img src="${imgSrc}" class="w-full h-full object-cover">\n                </button>\n            `;
         });
     } else {
         galeriaContenedor.classList.add('hidden'); 
@@ -295,7 +289,7 @@ function abrirModal(id) {
         } else {
             badgeContainer.innerHTML = `<span class="inline-block bg-emerald-50 text-emerald-700 text-[10px] font-bold px-2.5 py-0.5 rounded-full border border-emerald-200">● En Stock</span>`;
         }
-        btnContainer.innerHTML = `<button onclick="confirmarAgregarModal()" class="w-full bg-slate-900 text-white py-2.5 rounded-xl font-bold text-xs hover:bg-slate-800 transition-all active:scale-95 shadow-sm">Agregar al Pedido</button>`;
+        btnContainer.innerHTML = `<button onclick="confirmarAgregarModal()" class="w-full bg-slate-900 text-white py-2.5 rounded-xl font-bold text-xs hover:bg-slate-800 transition-all active:scale-95 [...]
     } else {
         badgeContainer.innerHTML = `<span class="inline-block bg-red-50 text-red-700 text-[10px] font-bold px-2.5 py-0.5 rounded-full border border-red-200">● Agotado</span>`;
         btnContainer.innerHTML = `<button disabled class="w-full bg-slate-100 text-slate-400 py-2.5 rounded-xl font-bold text-xs cursor-not-allowed">Sin Stock</button>`;
@@ -476,8 +470,130 @@ function enviarWhatsApp() {
     window.open(`https://wa.me/${MI_NUMERO_WHATSAPP}?text=${encodeURIComponent(msj)}`, '_blank');
 }
 
+// ===== Navegación inferior estilo app (Tailwind) =====
+function initBottomNav() {
+  if (document.getElementById('mnav')) return; // no duplicar
+
+  const html = `
+    <nav id="mnav" class="sm:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-sm border-t border-slate-200/60">
+      <div class="max-w-4xl mx-auto flex justify-between items-center px-2 py-2">
+        <button id="mnav-home" class="mnav-item flex flex-col items-center text-slate-600 text-xs px-2 py-1 rounded-md active:scale-95">
+          <svg class="w-5 h-5 mb-0.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 10.5L12 4l9 6.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V10.5z"/></svg>
+          <span class="block text-[10px]">Inicio</span>
+        </button>
+
+        <button id="mnav-search" class="mnav-item flex flex-col items-center text-slate-600 text-xs px-2 py-1 rounded-md active:scale-95">
+          <svg class="w-5 h-5 mb-0.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 20l-5.6-5.6A7 7 0 1 0 9 16a7 7 0 0 0 6.4-3.4L21 20zM11 16a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"/></svg>
+          <span class="block text-[10px]">Buscar</span>
+        </button>
+
+        <button id="mnav-cats" class="mnav-item flex flex-col items-center text-slate-600 text-xs px-2 py-1 rounded-md active:scale-95">
+          <svg class="w-5 h-5 mb-0.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 13h8V3H3v10zm10 8h8v-6h-8v6zM3 21h8v-6H3v6zm10-18v6h8V3h-8z"/></svg>
+          <span class="block text-[10px]">Categorías</span>
+        </button>
+
+        <button id="mnav-cart" class="mnav-item relative flex flex-col items-center text-slate-600 text-xs px-2 py-1 rounded-md active:scale-95">
+          <svg class="w-5 h-5 mb-0.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4h-2l-1 2h2l3.6 7.59-1.35 2.45A1 1 0 0 0 8.2 17h8.45l1.6-7H6.21L5.27 6H7zM7 20a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 20zm10 0a2 2 0 1 0 .001 4.001A2 2 0 0 0 17 20z"/></svg>
+          <span id="mnav-badge" class="hidden absolute -top-1 right-3 min-w-[18px] text-[10px] font-bold text-white bg-red-500 rounded-full px-1.5 leading-none">0</span>
+          <span class="block text-[10px]">Carrito</span>
+        </button>
+      </div>
+    </nav>
+  `;
+
+  document.body.insertAdjacentHTML('beforeend', html);
+
+  const btnHome = document.getElementById('mnav-home');
+  const btnSearch = document.getElementById('mnav-search');
+  const btnCats = document.getElementById('mnav-cats');
+  const btnCart = document.getElementById('mnav-cart');
+  const badge = document.getElementById('mnav-badge');
+
+  function clearActive() {
+    document.querySelectorAll('#mnav .mnav-item').forEach(el => {
+      el.classList.remove('text-white', 'bg-slate-900');
+      el.classList.remove('on');
+      el.classList.add('text-slate-600');
+    });
+  }
+  function setActive(el) {
+    clearActive();
+    el.classList.add('on');
+    el.classList.remove('text-slate-600');
+    el.classList.add('text-white', 'bg-slate-900');
+  }
+
+  btnHome.addEventListener('click', () => {
+    setActive(btnHome);
+    // Selecciona "Todas" y filtra
+    if (typeof seleccionarCategoria === 'function') seleccionarCategoria('Todas');
+    // limpiar búsqueda si existe
+    const inp = document.getElementById('input-busqueda');
+    if (inp) { inp.value = ''; }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  btnSearch.addEventListener('click', () => {
+    setActive(btnSearch);
+    const inp = document.getElementById('input-busqueda');
+    if (inp) {
+      inp.focus();
+      inp.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } else {
+      // Si no hay input, abrir contenedor de búsqueda si existe
+      const cont = document.getElementById('contenedor-categorias');
+      if (cont) cont.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  });
+
+  btnCats.addEventListener('click', () => {
+    setActive(btnCats);
+    const cont = document.getElementById('contenedor-categorias');
+    if (cont) {
+      cont.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      // pequeño highlight visual
+      cont.style.transition = 'box-shadow 0.35s';
+      cont.style.boxShadow = '0 0 0 4px rgba(34,197,94,0.06)';
+      setTimeout(() => cont.style.boxShadow = '', 700);
+    }
+  });
+
+  btnCart.addEventListener('click', () => {
+    setActive(btnCart);
+    // Actualizar carrito si existe la función
+    if (typeof actualizarCarrito === 'function') actualizarCarrito();
+    // Intentar scrollear al listado del carrito
+    const lista = document.getElementById('lista-carrito');
+    if (lista) lista.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    else window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // Actualiza badge leyendo la variable global carrito (espera que exista array global)
+  function updateCartBadge() {
+    try {
+      const total = Array.isArray(window.carrito) ? window.carrito.reduce((s, it) => s + (parseInt(it.cantidad) || 0), 0) : 0;
+      if (total > 0) {
+        badge.classList.remove('hidden');
+        badge.textContent = total > 99 ? '99+' : String(total);
+      } else {
+        badge.classList.add('hidden');
+      }
+    } catch (e) {
+      badge.classList.add('hidden');
+    }
+  }
+
+  updateCartBadge();
+  // polling ligero para mantener sincronizado el badge con la variable carrito
+  setInterval(updateCartBadge, 700);
+
+  // establecer inicio activo por defecto
+  setActive(btnHome);
+}
+
 // Iniciar app al cargar la página configurando todo primero
 document.addEventListener('DOMContentLoaded', () => {
     configurarInterfaz();
     CargarCSV();
+    initBottomNav(); // inicializar navegación inferior móvil
 });
