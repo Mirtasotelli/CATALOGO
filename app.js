@@ -103,7 +103,10 @@ function generarBotonesCategorias() {
 
     contenedor.innerHTML = categorias.map(cat => `
         <button onclick="seleccionarCategoria('${cat}')" 
-                class="btn-categoria text-xs font-bold px-3.5 py-1.5 rounded-full whitespace-nowrap transition-all ${cat === categoriaActiva ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-600 [...]\n            ${cat}\n        </button>\n    `).join('');
+                class="btn-categoria text-xs font-bold px-3.5 py-1.5 rounded-full whitespace-nowrap transition-all ${cat === categoriaActiva ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-600'}">
+            ${cat}
+        </button>
+    `).join('');
 }
 
 function seleccionarCategoria(cat) {
@@ -151,7 +154,7 @@ function dibujarProductos(lista) {
         const tieneStock = esStockNumerico ? cantidadStock > 0 : (stockTxt === 'si' || stockTxt === 'disponible');
 
         const botonHTML = tieneStock 
-            ? `<button onclick="event.stopPropagation(); agregarAlCarrito('${prod.id}', 1)" class="bg-slate-900 hover:bg-slate-800 text-white px-3 py-1.5 rounded-xl text-xs font-bold transition-transf[...]
+            ? `<button onclick="event.stopPropagation(); agregarAlCarrito('${prod.id}', 1)" class="bg-slate-900 hover:bg-slate-800 text-white px-3 py-1.5 rounded-xl text-xs font-bold transition-transform duration-200">Agregar</button>`
             : `<button disabled class="bg-slate-100 text-slate-400 px-3 py-1.5 rounded-xl text-xs font-bold cursor-not-allowed z-20 relative">Agotado</button>`;
 
         let cartelUrgencia = '';
@@ -178,7 +181,7 @@ function dibujarProductos(lista) {
             : ``;
 
         contenedor.innerHTML += `
-            <div onclick="abrirModal('${prod.id}')" class="bg-white p-3.5 sm:p-4 rounded-2xl shadow-sm border border-slate-200/80 flex flex-col justify-between cursor-pointer hover:shadow-md hover:bor[...]
+            <div onclick="abrirModal('${prod.id}')" class="bg-white p-3.5 sm:p-4 rounded-2xl shadow-sm border border-slate-200/80 flex flex-col justify-between cursor-pointer hover:shadow-md hover:border-slate-200 relative">
                 ${cartelUrgencia}
                 <div>
                     <div class="relative overflow-hidden rounded-xl bg-slate-50 mb-3 h-36 sm:h-44 group-hover:scale-105 transition-transform duration-300">
@@ -222,50 +225,57 @@ function abrirModal(id) {
 
     const arrayImagenes = (prod.imagen || "").split('|').map(u => u.trim());
     const fotoPrincipal = document.getElementById('modal-imagen');
-    fotoPrincipal.src = arrayImagenes[0] || 'https://via.placeholder.com/300';
+    if (fotoPrincipal) fotoPrincipal.src = arrayImagenes[0] || 'https://via.placeholder.com/300';
     
     const galeriaContenedor = document.getElementById('modal-galeria');
-    galeriaContenedor.innerHTML = ""; 
+    if (galeriaContenedor) galeriaContenedor.innerHTML = ""; 
     
-    if (arrayImagenes.length > 1) {
+    if (arrayImagenes.length > 1 && galeriaContenedor) {
         galeriaContenedor.classList.remove('hidden');
         arrayImagenes.forEach((imgSrc) => {
             galeriaContenedor.innerHTML += `
-                <button onclick="cambiarFotoModal('${imgSrc}')" class="w-14 h-14 shrink-0 rounded-lg overflow-hidden border-2 border-transparent hover:border-slate-900 focus:border-slate-900 transitio[...]\n                    <img src="${imgSrc}" class="w-full h-full object-cover">\n                </button>\n            `;
+                <button onclick="cambiarFotoModal('${imgSrc}')" class="w-14 h-14 shrink-0 rounded-lg overflow-hidden border-2 border-transparent hover:border-slate-900 focus:border-slate-900 transition-all mr-2">
+                    <img src="${imgSrc}" class="w-full h-full object-cover">
+                </button>
+            `;
         });
-    } else {
+    } else if (galeriaContenedor) {
         galeriaContenedor.classList.add('hidden'); 
     }
 
-    document.getElementById('modal-categoria').innerText = prod.categoria || 'Producto';
-    document.getElementById('modal-nombre').innerText = prod.nombre;
+    const modalCategoriaEl = document.getElementById('modal-categoria');
+    if (modalCategoriaEl) modalCategoriaEl.innerText = prod.categoria || 'Producto';
+    const modalNombreEl = document.getElementById('modal-nombre');
+    if (modalNombreEl) modalNombreEl.innerText = prod.nombre;
     
     const elDesc = document.getElementById('modal-descripcion');
     if (elDesc) elDesc.innerText = prod.descripcion || 'Sin descripción disponible.';
 
     const contenedorPreciosModal = document.getElementById('contenedor-precios-modal');
-    if (ACTIVAR_MAYORISTA) {
-        contenedorPreciosModal.classList.add('grid', 'grid-cols-2');
-        contenedorPreciosModal.classList.remove('flex', 'justify-center');
-        contenedorPreciosModal.innerHTML = `
-            <div class="border-r border-slate-200/60 pr-2">
-                <p class="text-[10px] text-slate-400 font-semibold uppercase">Minorista</p>
-                <p id="modal-precio-min" class="text-sm font-bold text-slate-500 line-through">$${pMinARS.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
-            </div>
-            <div class="pl-2">
-                <p class="text-[10px] text-emerald-600 font-bold uppercase">Mayorista</p>
-                <p id="modal-precio-may" class="text-lg font-black text-emerald-600">$${pMayARS.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
-            </div>
-        `;
-    } else {
-        contenedorPreciosModal.classList.remove('grid', 'grid-cols-2');
-        contenedorPreciosModal.classList.add('flex', 'justify-center', 'text-center');
-        contenedorPreciosModal.innerHTML = `
-            <div>
-                <p class="text-[10px] text-emerald-600 font-bold uppercase">Precio Unitario</p>
-                <p id="modal-precio-may" class="text-2xl font-black text-emerald-600">$${pMinARS.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
-            </div>
-        `;
+    if (contenedorPreciosModal) {
+        if (ACTIVAR_MAYORISTA) {
+            contenedorPreciosModal.classList.add('grid', 'grid-cols-2');
+            contenedorPreciosModal.classList.remove('flex', 'justify-center');
+            contenedorPreciosModal.innerHTML = `
+                <div class="border-r border-slate-200/60 pr-2">
+                    <p class="text-[10px] text-slate-400 font-semibold uppercase">Minorista</p>
+                    <p id="modal-precio-min" class="text-sm font-bold text-slate-500 line-through">$${pMinARS.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
+                </div>
+                <div class="pl-2">
+                    <p class="text-[10px] text-emerald-600 font-bold uppercase">Mayorista</p>
+                    <p id="modal-precio-may" class="text-lg font-black text-emerald-600">$${pMayARS.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
+                </div>
+            `;
+        } else {
+            contenedorPreciosModal.classList.remove('grid', 'grid-cols-2');
+            contenedorPreciosModal.classList.add('flex', 'justify-center', 'text-center');
+            contenedorPreciosModal.innerHTML = `
+                <div>
+                    <p class="text-[10px] text-emerald-600 font-bold uppercase">Precio Unitario</p>
+                    <p id="modal-precio-may" class="text-2xl font-black text-emerald-600">$${pMinARS.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
+                </div>
+            `;
+        }
     }
 
     const inputCant = document.getElementById('modal-cantidad');
@@ -281,25 +291,27 @@ function abrirModal(id) {
                 ? "🔥 ¡Solo queda 1 unidad!" 
                 : `🔥 ¡Solo quedan ${cantidadStock} unidades!`;
 
-            badgeContainer.innerHTML = `
+            if (badgeContainer) badgeContainer.innerHTML = `
                 <span class="inline-block bg-red-100 text-red-700 text-[10px] font-bold px-2.5 py-0.5 rounded-full border border-red-200 animate-pulse">
                     ${textoModalUrgencia}
                 </span>
             `;
-        } else {
+        } else if (badgeContainer) {
             badgeContainer.innerHTML = `<span class="inline-block bg-emerald-50 text-emerald-700 text-[10px] font-bold px-2.5 py-0.5 rounded-full border border-emerald-200">● En Stock</span>`;
         }
-        btnContainer.innerHTML = `<button onclick="confirmarAgregarModal()" class="w-full bg-slate-900 text-white py-2.5 rounded-xl font-bold text-xs hover:bg-slate-800 transition-all active:scale-95 [...]
-    } else {
+        if (btnContainer) btnContainer.innerHTML = `<button onclick="confirmarAgregarModal()" class="w-full bg-slate-900 text-white py-2.5 rounded-xl font-bold text-xs hover:bg-slate-800 transition-all active:scale-95">Agregar al carrito</button>`;
+    } else if (badgeContainer && btnContainer) {
         badgeContainer.innerHTML = `<span class="inline-block bg-red-50 text-red-700 text-[10px] font-bold px-2.5 py-0.5 rounded-full border border-red-200">● Agotado</span>`;
         btnContainer.innerHTML = `<button disabled class="w-full bg-slate-100 text-slate-400 py-2.5 rounded-xl font-bold text-xs cursor-not-allowed">Sin Stock</button>`;
     }
 
-    document.getElementById('modal-detalle').classList.remove('hidden');
+    const modalDetalle = document.getElementById('modal-detalle');
+    if (modalDetalle) modalDetalle.classList.remove('hidden');
 }
 
 function cambiarFotoModal(url) {
     const fotoPrincipal = document.getElementById('modal-imagen');
+    if (!fotoPrincipal) return;
     fotoPrincipal.style.opacity = '0.5'; 
     setTimeout(() => {
         fotoPrincipal.src = url;
@@ -335,7 +347,8 @@ function confirmarAgregarModal() {
 }
 
 function cerrarModal() {
-    document.getElementById('modal-detalle').classList.add('hidden');
+    const modalDetalle = document.getElementById('modal-detalle');
+    if (modalDetalle) modalDetalle.classList.add('hidden');
 }
 
 document.getElementById('modal-detalle')?.addEventListener('click', function(e) {
@@ -420,6 +433,9 @@ function actualizarCarrito() {
             }
         }
     }
+
+    // actualizar badge de navegación móvil si existe
+    try { if (typeof refreshNavBadge === 'function') refreshNavBadge(); } catch(e) {}
 }
 
 function modificarCantidadCarrito(idx, delta) {
@@ -568,10 +584,10 @@ function initBottomNav() {
     else window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
-  // Actualiza badge leyendo la variable global carrito (espera que exista array global)
+  // badge refresher function (reactive usage via refreshNavBadge)
   function updateCartBadge() {
     try {
-      const total = Array.isArray(window.carrito) ? window.carrito.reduce((s, it) => s + (parseInt(it.cantidad) || 0), 0) : 0;
+      const total = Array.isArray(carrito) ? carrito.reduce((s, it) => s + (parseInt(it.cantidad) || 0), 0) : 0;
       if (total > 0) {
         badge.classList.remove('hidden');
         badge.textContent = total > 99 ? '99+' : String(total);
@@ -583,9 +599,12 @@ function initBottomNav() {
     }
   }
 
+  // expose a small helper so actualizarCarrito can call it instead of polling
+  window.refreshNavBadge = updateCartBadge;
+
   updateCartBadge();
-  // polling ligero para mantener sincronizado el badge con la variable carrito
-  setInterval(updateCartBadge, 700);
+  // keep a light polling fallback for older flows
+  const _poll = setInterval(updateCartBadge, 1500);
 
   // establecer inicio activo por defecto
   setActive(btnHome);
@@ -595,5 +614,5 @@ function initBottomNav() {
 document.addEventListener('DOMContentLoaded', () => {
     configurarInterfaz();
     CargarCSV();
-    initBottomNav(); // inicializar navegación inferior móvil
+    try { initBottomNav(); } catch(e) { console.error('initBottomNav error', e); }
 });
