@@ -205,16 +205,16 @@ function dibujarProductos(lista) {
                 bloquePreciosGrilla = `
                     <div>
                         <p class="font-black text-emerald-600 text-sm">$${pMayARS.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
-                        <p class="text-[9px] text-slate-400">USD ${pMayUSD.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
+                        <p class="text-sm font-bold text-blue-600">USD ${pMayUSD.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
                         <p class="text-[10px] line-through text-slate-400 mt-1">$${pMinARS.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
-                        <p class="text-[9px] text-slate-300">USD ${pMinUSD.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
+                        <p class="text-[10px] text-slate-300">USD ${pMinUSD.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
                     </div>
                 `;
             } else {
                 bloquePreciosGrilla = `
                     <div>
                         <p class="font-black text-emerald-600 text-sm">$${pMinARS.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
-                        <p class="text-[9px] text-slate-400">USD ${pMinUSD.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
+                        <p class="text-sm font-bold text-blue-600">USD ${pMinUSD.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
                     </div>
                 `;
             }
@@ -300,12 +300,12 @@ function abrirModal(id) {
                     <div class="border-r border-slate-200/60 pr-2">
                         <p class="text-[10px] text-slate-400 font-semibold uppercase">Minorista</p>
                         <p class="text-sm font-bold text-slate-500 line-through">$${pMinARS.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
-                        <p class="text-[9px] text-slate-400">USD ${pMinUSD.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
+                        <p class="text-base font-bold text-blue-600">USD ${pMinUSD.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
                     </div>
                     <div class="pl-2">
                         <p class="text-[10px] text-emerald-600 font-bold uppercase">Mayorista</p>
                         <p class="text-lg font-black text-emerald-600">$${pMayARS.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
-                        <p class="text-[9px] text-emerald-600">USD ${pMayUSD.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
+                        <p class="text-lg font-bold text-blue-600">USD ${pMayUSD.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
                     </div>
                 `;
             } else {
@@ -315,7 +315,7 @@ function abrirModal(id) {
                     <div>
                         <p class="text-[10px] text-emerald-600 font-bold uppercase">Precio Unitario</p>
                         <p class="text-2xl font-black text-emerald-600">$${pMinARS.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
-                        <p class="text-[10px] text-slate-400 mt-1">USD ${pMinUSD.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
+                        <p class="text-xl font-bold text-blue-600 mt-2">USD ${pMinUSD.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
                     </div>
                 `;
             }
@@ -450,7 +450,7 @@ function actualizarCarrito() {
                     <div class="pr-2 truncate flex-1">
                         <p class="font-bold text-slate-800 truncate">${prod.nombre}</p>
                         <p class="text-[10px] text-slate-400">$${pARS.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
-                        <p class="text-[9px] text-slate-400">USD ${pUSD.toLocaleString('es-AR', {minimumFractionDigits: 2})} c/u</p>
+                        <p class="text-sm font-bold text-blue-600">USD ${pUSD.toLocaleString('es-AR', {minimumFractionDigits: 2})} c/u</p>
                     </div>
                     <div class="flex items-center gap-2 shrink-0">
                         <div class="flex items-center border bg-white rounded-lg px-1">
@@ -466,7 +466,7 @@ function actualizarCarrito() {
 
         // Actualizar totales en escritorio
         if (totalEl) {
-            totalEl.innerHTML = `<div class="text-2xl font-black text-slate-900">$${totalARS.toLocaleString('es-AR', {minimumFractionDigits: 2})}</div><div class="text-xs text-slate-400 mt-1">USD ${totalUSD.toLocaleString('es-AR', {minimumFractionDigits: 2})}</div>`;
+            totalEl.innerHTML = `<div class="text-2xl font-black text-slate-900">$${totalARS.toLocaleString('es-AR', {minimumFractionDigits: 2})}</div><div class="text-lg font-bold text-blue-600 mt-1">USD ${totalUSD.toLocaleString('es-AR', {minimumFractionDigits: 2})}</div>`;
         }
         
         // Actualizar totales en móvil
