@@ -5,21 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catálogo Online</title>
 
-    <style>
-  /* Asegura que ninguna imagen de producto se corte en PC/Web */
-  #contenedor-productos img {
-    object-fit: contain !important;
-    max-height: 100% !important;
-    width: 100% !important;
-  }
-
-  /* Asegura un tamaño limpio y proporcionado dentro del Popup modal en PC */
-  #modal-imagen {
-    object-fit: contain !important;
-    max-height: 420px !important;
-  }
-</style>
-    
     <!-- Fuente Inter de Google -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -42,8 +27,21 @@
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
     <style>
+        /* Asegura visualización de imágenes */
+        #contenedor-productos img {
+            object-fit: contain !important;
+            max-height: 100% !important;
+            width: 100% !important;
+        }
+
+        #modal-imagen {
+            object-fit: contain !important;
+            max-height: 420px !important;
+        }
+
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
         @keyframes modalIn {
             from { opacity: 0; transform: scale(0.95) translateY(10px); }
             to { opacity: 1; transform: scale(1) translateY(0); }
@@ -57,52 +55,51 @@
             opacity: 0;
         }
 
-        /* Estilos responsive para precios en dólares */
+        /* Estilos responsive para precios */
         .precio-usd-grilla {
-            font-size: 0.875rem; /* sm = 14px */
+            font-size: 0.875rem;
             font-weight: 700;
             color: #2563eb;
         }
 
         @media (min-width: 1024px) {
             .precio-usd-grilla {
-                font-size: 1.125rem; /* lg = 18px en web */
-                font-weight: 700;
+                font-size: 1.125rem;
             }
         }
 
         .precio-usd-modal {
-            font-size: 1rem; /* base */
+            font-size: 1rem;
             font-weight: 700;
             color: #2563eb;
         }
 
         @media (min-width: 768px) {
             .precio-usd-modal {
-                font-size: 1.25rem; /* lg = 20px */
+                font-size: 1.25rem;
             }
         }
 
         .precio-usd-carrito {
-            font-size: 0.875rem; /* sm = 14px */
+            font-size: 0.875rem;
             font-weight: 700;
             color: #2563eb;
         }
 
         @media (min-width: 1024px) {
             .precio-usd-carrito {
-                font-size: 1rem; /* base = 16px */
+                font-size: 1rem;
             }
         }
 
         .total-usd-desktop {
-            font-size: 1.125rem; /* lg = 18px */
+            font-size: 1.125rem;
             font-weight: 700;
             color: #2563eb;
         }
     </style>
 </head>
-<body class="bg-[#F8FAFC] text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-slate-900 selection:text-white">
+<body class="bg-[#F8FAFC] text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-slate-900 selection:text-white pb-20 sm:pb-0">
 
     <!-- Header Glassmorphism -->
     <header class="bg-white/90 backdrop-blur-md border-b border-slate-200/80 sticky top-0 z-40 transition-all">
@@ -120,7 +117,8 @@
                 </div>
             </div>
 
-            <div class="lg:hidden flex items-center gap-2 bg-slate-900 text-white px-3.5 py-1.5 rounded-full text-xs font-bold shadow-md">
+            <!-- Resumen flotante header móvil -->
+            <div onclick="document.getElementById('lista-carrito')?.scrollIntoView({ behavior: 'smooth', block: 'center' })" class="lg:hidden flex items-center gap-2 bg-slate-900 text-white px-3.5 py-1.5 rounded-full text-xs font-bold shadow-md cursor-pointer active:scale-95 transition-transform">
                 <span>🛒</span>
                 <span id="cant-items-mobile" class="bg-emerald-500 text-slate-950 px-1.5 py-0.2 rounded-full text-[10px]">0</span>
                 <span>$<span id="total-precio-mobile">0</span></span>
@@ -147,10 +145,11 @@
         
         <div class="flex flex-col lg:flex-row gap-8">
             
+            <!-- Productos y Filtros -->
             <section class="w-full lg:w-2/3 xl:w-3/4">
                 <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-slate-200/80 mb-6 space-y-4">
                     <div class="relative">
-                        <input type="text" id="input-busqueda" oninput="filtrarProductos()" placeholder="Buscar por nombre o producto..." class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/20 focus:bg-white transition-all">
+                        <input type="text" id="input-busqueda" placeholder="Buscar por nombre o producto..." class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/20 focus:bg-white transition-all">
                         <svg class="w-4 h-4 absolute left-3.5 top-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                     </div>
                     <div id="contenedor-categorias" class="flex gap-2 overflow-x-auto no-scrollbar pb-1"></div>
@@ -163,6 +162,7 @@
                 </div>
             </section>
 
+            <!-- Carrito de Compras -->
             <aside class="w-full lg:w-1/3 xl:w-1/4">
                 <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-5 sm:p-6 sticky top-20">
                     <h2 class="text-base font-black text-slate-900 flex items-center justify-between mb-4 border-b pb-3">
@@ -218,24 +218,15 @@
                     <span id="modal-categoria" class="absolute bottom-3 left-3 bg-slate-900/80 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full backdrop-blur-md uppercase tracking-widest"></span>
                 </div>
 
-                <div id="modal-galeria" class="flex gap-2 p-4 overflow-x-auto no-scrollbar border-b border-slate-100">
-                </div>
+                <div id="modal-galeria" class="flex gap-2 p-4 overflow-x-auto no-scrollbar border-b border-slate-100"></div>
 
                 <div class="p-5 sm:p-6 pb-0">
                     <div id="modal-stock-badge" class="mb-2"></div>
                     <h3 id="modal-nombre" class="text-lg font-black text-slate-900 leading-snug mb-1"></h3>
                     <p id="modal-descripcion" class="text-xs text-slate-500 mb-4 leading-relaxed"></p>
 
-                    <div class="grid grid-cols-2 gap-2 bg-slate-50 p-3 rounded-2xl border border-slate-100 mb-5" id="contenedor-precios-modal">
-                        <div class="border-r border-slate-200/60 pr-2">
-                            <p class="text-[10px] text-slate-400 font-semibold uppercase">Minorista</p>
-                            <p id="modal-precio-min" class="text-sm font-bold text-slate-500 line-through"></p>
-                        </div>
-                        <div class="pl-2">
-                            <p class="text-[10px] text-emerald-600 font-bold uppercase" id="texto-precio-destacado-modal">Mayorista</p>
-                            <p id="modal-precio-may" class="text-lg font-black text-emerald-600"></p>
-                        </div>
-                    </div>
+                    <!-- Precios dinámicos inyectados por JS -->
+                    <div id="contenedor-precios-modal"></div>
 
                     <div class="space-y-1.5">
                         <label class="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider block">Cantidad a pedir:</label>
@@ -245,8 +236,7 @@
                                 <input type="number" id="modal-cantidad" value="1" min="1" oninput="validarCantidadInputModal(this)" class="w-12 text-center text-sm font-black text-slate-900 bg-transparent focus:outline-none">
                                 <button type="button" onclick="cambiarCantidadModal(1)" class="w-9 h-9 flex items-center justify-center font-black text-slate-700 hover:bg-white rounded-lg transition-all">+</button>
                             </div>
-                            <div id="modal-btn-container" class="flex-grow">
-                            </div>
+                            <div id="modal-btn-container" class="flex-grow"></div>
                         </div>
                     </div>
                 </div>
@@ -254,6 +244,7 @@
         </div>
     </div>
 
+    <!-- Footer -->
     <footer class="bg-white border-t border-slate-200/80 py-6 text-center text-xs text-slate-400">
         <p>© Catálogo Online — Actualizado automáticamente</p>
     </footer>
