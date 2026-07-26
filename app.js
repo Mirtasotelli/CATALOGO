@@ -9,7 +9,7 @@ window.addEventListener('error', function (e) {
 // ==========================================
 // CONFIGURACIÓN INICIAL
 // ==========================================
-const URL_CSV_DIRECTO = "https://raw.githubusercontent.com/tevo-mdp/prueba_caipser/main/productos.csv?v=" + new Date().getTime(); 
+const URL_CSV_DIRECTO = "https://raw.githubusercontent.com/Mirtasotelli/CATALOGO/main/productos.csv?v=" + new Date().getTime(); 
 const MI_NUMERO_WHATSAPP = "5492235310709"; 
 
 // --- INTERRUPTOR DE PROMOCIÓN MAYORISTA ---
