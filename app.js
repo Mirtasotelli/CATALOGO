@@ -648,6 +648,21 @@ function enviarWhatsApp() {
     window.open(`https://wa.me/${MI_NUMERO_WHATSAPP}?text=${encodeURIComponent(msj)}`, '_blank');
 }
 
+// ==========================================
+// 8. CERRAR MODAL BIENVENIDA
+// ==========================================
+function cerrarBienvenida() {
+    const modal = document.getElementById('modal-bienvenida');
+    if (modal) {
+        modal.classList.add('opacity-0', 'pointer-events-none');
+        setTimeout(() => {
+            modal.style.display = 'none';
+        }, 300);
+    }
+    // Habilita el scroll en la página
+    document.body.classList.remove('overflow-hidden');
+}
+
 // ===== Botón Subir al Inicio (Desktop) =====
 function initScrollToTop() {
     if (document.getElementById('btn-scroll-top')) return;
