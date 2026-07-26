@@ -26,6 +26,16 @@ let categoriaActiva = "Todas";
 let productoModalActual = null;
 
 // ==========================================
+// INICIALIZACIÓN DE LA APLICACIÓN
+// ==========================================
+document.addEventListener('DOMContentLoaded', () => {
+    configurarInterfaz();
+    CargarCSV();
+    initScrollToTop();
+    initBottomNav();
+});
+
+// ==========================================
 // FUNCIÓN PARA ACTUALIZAR HTML DINÁMICO
 // ==========================================
 function configurarInterfaz() {
@@ -87,21 +97,20 @@ async function CargarCSV() {
             skipEmptyLines: true,
             complete: function(results) {
                 try {
-                    // CÓDIGO CORREGIDO (Elimina IDs duplicados automáticamente):
-let datosRaw = results.data.filter(p => p && p.nombre && p.id);
+                    let datosRaw = results.data.filter(p => p && p.nombre && p.id);
 
-// Guardamos solo el primer producto de cada ID
-const idsVistos = new Set();
-let datos = datosRaw.filter(p => {
-    const idLimpio = p.id.toString().trim();
-    if (idsVistos.has(idLimpio)) {
-        return false; // Descarta si el ID ya fue dibujado
-    }
-    idsVistos.add(idLimpio);
-    return true;
-});
+                    // Descartar IDs duplicados
+                    const idsVistos = new Set();
+                    let datos = datosRaw.filter(p => {
+                        const idLimpio = p.id.toString().trim();
+                        if (idsVistos.has(idLimpio)) {
+                            return false; 
+                        }
+                        idsVistos.add(idLimpio);
+                        return true;
+                    });
 
-                    // ORDENAR POR MAYOR STOCK PRIMERO
+                    // Ordenar por mayor stock primero
                     datos.sort((a, b) => {
                         const obtenerValorStock = (stockTxt) => {
                             const txt = (stockTxt || '').toString().toLowerCase().trim();
@@ -166,7 +175,7 @@ function filtrarProductos() {
 }
 
 // ==========================================
-// 4. RENDERIZAR PRODUCTOS EN GRILLA (OPTIMIZADO)
+// 4. RENDERIZAR PRODUCTOS EN GRILLA
 // ==========================================
 function dibujarProductos(lista) {
     try {
@@ -178,7 +187,6 @@ function dibujarProductos(lista) {
             return;
         }
 
-        // Se usa .map().join('') para renderizar todo en un solo impacto al DOM
         contenedor.innerHTML = lista.map(prod => {
             const pMinUSD = parseFloat(prod.precio_minorista) || 0;
             const pMayUSD = parseFloat(prod.precio_mayorista) || 0;
@@ -600,9 +608,9 @@ function initScrollToTop() {
 
 // ===== Navegación inferior estilo app (Tailwind) =====
 function initBottomNav() {
-  if (document.getElementById('mnav')) return;
+    if (document.getElementById('mnav')) return;
 
-  const html = `
+    const html = `
     <nav id="mnav" class="sm:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-sm border-t border-slate-200/60">
       <div class="max-w-4xl mx-auto flex justify-between items-center px-2 py-2">
         <button id="mnav-home" class="mnav-item flex flex-col items-center text-slate-600 text-xs px-2 py-1 rounded-md active:scale-95">
@@ -627,77 +635,61 @@ function initBottomNav() {
         </button>
       </div>
     </nav>
-  `;
+    `;
 
-  document.body.insertAdjacentHTML('beforeend', html);
+    document.body.insertAdjacentHTML('beforeend', html);
 
-  const btnHome = document.getElementById('mnav-home');
-  const btnSearch = document.getElementById('mnav-search');
-  const btnCats = document.getElementById('mnav-cats');
-  const btnCart = document.getElementById('mnav-cart');
+    const btnHome = document.getElementById('mnav-home');
+    const btnSearch = document.getElementById('mnav-search');
+    const btnCats = document.getElementById('mnav-cats');
+    const btnCart = document.getElementById('mnav-cart');
 
-  function clearActive() {
-    document.querySelectorAll('#mnav .mnav-item').forEach(el => {
-      el.classList.remove('text-white', 'bg-slate-900');
-      el.classList.add('text-slate-600');
+    function clearActive() {
+        document.querySelectorAll('#mnav .mnav-item').forEach(el => {
+            el.classList.remove('text-white', 'bg-slate-900');
+            el.classList.add('text-slate-600');
+        });
+    }
+
+    function setActive(el) {
+        clearActive();
+        el.classList.remove('text-slate-600');
+        el.classList.add('text-white', 'bg-slate-900');
+    }
+
+    btnHome?.addEventListener('click', () => {
+        setActive(btnHome);
+        if (typeof seleccionarCategoria === 'function') seleccionarCategoria('Todas');
+        const inp = document.getElementById('input-busqueda');
+        if (inp) { inp.value = ''; }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     });
-  }
 
-  function setActive(el) {
-    clearActive();
-    el.classList.remove('text-slate-600');
-    el.classList.add('text-white', 'bg-slate-900');
-  }
+    btnSearch?.addEventListener('click', () => {
+        setActive(btnSearch);
+        const inp = document.getElementById('input-busqueda');
+        if (inp) {
+            inp.focus();
+            inp.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else {
+            const cont = document.getElementById('contenedor-categorias');
+            if (cont) cont.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    });
 
-  btnHome.addEventListener('click', () => {
-    setActive(btnHome);
-    if (typeof seleccionarCategoria === 'function') seleccionarCategoria('Todas');
-    const inp = document.getElementById('input-busqueda');
-    if (inp) { inp.value = ''; }
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
+    btnCats?.addEventListener('click', () => {
+        setActive(btnCats);
+        const cont = document.getElementById('contenedor-categorias');
+        if (cont) {
+            cont.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    });
 
-  btnSearch.addEventListener('click', () => {
-    setActive(btnSearch);
-    const inp = document.getElementById('input-busqueda');
-    if (inp) {
-      inp.focus();
-      inp.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    } else {
-      const cont = document.getElementById('contenedor-categorias');
-      if (cont) cont.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-  });
-
-  btnCats.addEventListener('click', () => {
-    setActive(btnCats);
-    const cont = document.getElementById('contenedor-categorias');
-    if (cont) {
-      cont.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      cont.style.transition = 'box-shadow 0.35s';
-      cont.style.boxShadow = '0 0 0 4px rgba(34,197,94,0.06)';
-      setTimeout(() => cont.style.boxShadow = '', 700);
-    }
-  });
-
-  btnCart.addEventListener('click', () => {
-    setActive(btnCart);
-    if (typeof actualizarCarrito === 'function') actualizarCarrito();
-    const lista = document.getElementById('lista-carrito');
-    if (lista) {
-      lista.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    } else {
-      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-    }
-  });
+    btnCart?.addEventListener('click', () => {
+        setActive(btnCart);
+        const cartEl = document.getElementById('seccion-carrito') || document.getElementById('lista-carrito');
+        if (cartEl) {
+            cartEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    });
 }
-
-// ==========================================
-// INICIALIZACIÓN
-// ==========================================
-document.addEventListener('DOMContentLoaded', () => {
-    configurarInterfaz();
-    CargarCSV();
-    initScrollToTop();
-    initBottomNav();
-});
