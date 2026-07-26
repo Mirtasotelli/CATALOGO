@@ -1,3 +1,11 @@
+// Log inicial para diagnóstico
+console.log('app.js cargado');
+
+// Captura global de errores para ayudar a depurar en producción
+window.addEventListener('error', function (e) {
+  console.error('Error global detectado en app.js:', e.error || e.message, e.filename + ':' + e.lineno);
+});
+
 // ==========================================
 // CONFIGURACIÓN INICIAL
 // ==========================================
@@ -61,30 +69,44 @@ async function obtenerDolar() {
 async function CargarCSV() {
     await obtenerDolar();
     
+    // Validar que PapaParse está disponible
+    if (typeof Papa === 'undefined') {
+        console.error('PapaParse no está definido. Asegurate de cargar la librería PapaParse antes de app.js');
+        return;
+    }
+
     try {
         const respuesta = await fetch(URL_CSV_DIRECTO);
+        if (!respuesta.ok) {
+            console.error('No se pudo cargar el CSV:', respuesta.status, respuesta.statusText);
+            return;
+        }
         const textoCSV = await respuesta.text();
 
         Papa.parse(textoCSV, {
             header: true,
             skipEmptyLines: true,
             complete: function(results) {
-                let datos = results.data.filter(p => p.nombre);
+                try {
+                    let datos = results.data.filter(p => p && p.nombre);
 
-                // ORDENAR POR MAYOR STOCK PRIMERO
-                datos.sort((a, b) => {
-                    const obtenerValorStock = (stockTxt) => {
-                        const txt = (stockTxt || '').toString().toLowerCase().trim();
-                        if (!isNaN(parseInt(txt))) return parseInt(txt); 
-                        if (txt === 'si' || txt === 'disponible') return 9999; 
-                        return 0; 
-                    };
-                    return obtenerValorStock(b.stock) - obtenerValorStock(a.stock);
-                });
+                    // ORDENAR POR MAYOR STOCK PRIMERO
+                    datos.sort((a, b) => {
+                        const obtenerValorStock = (stockTxt) => {
+                            const txt = (stockTxt || '').toString().toLowerCase().trim();
+                            if (!isNaN(parseInt(txt))) return parseInt(txt); 
+                            if (txt === 'si' || txt === 'disponible') return 9999; 
+                            return 0; 
+                        };
+                        return obtenerValorStock(b.stock) - obtenerValorStock(a.stock);
+                    });
 
-                productos = datos;
-                generarBotonesCategorias();
-                filtrarProductos();
+                    productos = datos;
+                    generarBotonesCategorias();
+                    filtrarProductos();
+                } catch (innerE) {
+                    console.error('Error procesando CSV:', innerE);
+                }
             }
         });
     } catch (error) {
@@ -96,17 +118,21 @@ async function CargarCSV() {
 // 3. FILTROS Y CATEGORÍAS
 // ==========================================
 function generarBotonesCategorias() {
-    const contenedor = document.getElementById('contenedor-categorias');
-    if (!contenedor) return;
+    try {
+        const contenedor = document.getElementById('contenedor-categorias');
+        if (!contenedor) return;
 
-    const categorias = ["Todas", ...new Set(productos.map(p => p.categoria).filter(Boolean))];
+        const categorias = ["Todas", ...new Set(productos.map(p => p.categoria).filter(Boolean))];
 
-    contenedor.innerHTML = categorias.map(cat => `
-        <button onclick="seleccionarCategoria('${cat}')" 
-                class="btn-categoria text-xs font-bold px-3.5 py-1.5 rounded-full whitespace-nowrap transition-all ${cat === categoriaActiva ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-600'}">
-            ${cat}
-        </button>
-    `).join('');
+        contenedor.innerHTML = categorias.map(cat => `
+            <button onclick="seleccionarCategoria('${cat.replace(/'/g, "\\'")}')" 
+                    class="btn-categoria text-xs font-bold px-3.5 py-1.5 rounded-full whitespace-nowrap transition-all ${cat === categoriaActiva ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-600'}">
+                ${cat}
+            </button>
+        `).join('');
+    } catch (e) {
+        console.error('Error en generarBotonesCategorias:', e);
+    }
 }
 
 function seleccionarCategoria(cat) {
@@ -120,7 +146,8 @@ function filtrarProductos() {
 
     const filtrados = productos.filter(p => {
         const coincideCat = categoriaActiva === "Todas" || p.categoria === categoriaActiva;
-        const coincideNombre = p.nombre.toLowerCase().includes(texto);
+        const nombre = (p.nombre || '').toString().toLowerCase();
+        const coincideNombre = nombre.includes(texto);
         return coincideCat && coincideNombre;
     });
 
@@ -131,20 +158,94 @@ function filtrarProductos() {
 // 4. RENDERIZAR PRODUCTOS EN GRILLA
 // ==========================================
 function dibujarProductos(lista) {
-    const contenedor = document.getElementById('contenedor-productos');
-    if (!contenedor) return;
+    try {
+        const contenedor = document.getElementById('contenedor-productos');
+        if (!contenedor) return;
 
-    contenedor.innerHTML = "";
+        contenedor.innerHTML = "";
 
-    if (lista.length === 0) {
-        contenedor.innerHTML = `<div class="col-span-full py-16 text-center text-slate-400 font-medium">No se encontraron artículos.</div>`;
-        return;
+        if (!Array.isArray(lista) || lista.length === 0) {
+            contenedor.innerHTML = `<div class="col-span-full py-16 text-center text-slate-400 font-medium">No se encontraron artículos.</div>`;
+            return;
+        }
+
+        lista.forEach(prod => {
+            const pMinUSD = parseFloat(prod.precio_minorista) || 0;
+            const pMayUSD = parseFloat(prod.precio_mayorista) || 0;
+            
+            const pMinARS = redondearPrecioPsicologico(pMinUSD * cotizacionDolar);
+            const pMayARS = redondearPrecioPsicologico(pMayUSD * cotizacionDolar);
+
+            const stockTxt = (prod.stock || '').toString().toLowerCase().trim();
+            const esStockNumerico = !isNaN(parseInt(stockTxt));
+            const cantidadStock = esStockNumerico ? parseInt(stockTxt) : 0;
+            const tieneStock = esStockNumerico ? cantidadStock > 0 : (stockTxt === 'si' || stockTxt === 'disponible');
+
+            const botonHTML = tieneStock 
+                ? `<button onclick="event.stopPropagation(); agregarAlCarrito('${prod.id}', 1)" class="bg-slate-900 hover:bg-slate-800 text-white px-3 py-1.5 rounded-xl text-xs font-bold transition-transform duration-200">Agregar</button>`
+                : `<button disabled class="bg-slate-100 text-slate-400 px-3 py-1.5 rounded-xl text-xs font-bold cursor-not-allowed z-20 relative">Agotado</button>`;
+
+            let cartelUrgencia = '';
+            if (tieneStock && esStockNumerico && cantidadStock <= UMBRAL_STOCK_FOMO) {
+                const textoUrgencia = cantidadStock === 1 ? "¡Última unidad!" : "¡Últimas unidades!";
+                cartelUrgencia = `
+                    <div class="absolute top-2 right-2 z-10 bg-red-600 text-white text-[9px] font-black uppercase tracking-wider px-2 py-1 rounded-full shadow-md shadow-red-500/30 animate-pulse">
+                        ${textoUrgencia}
+                    </div>
+                `;
+            }
+
+            const arrayImagenes = (prod.imagen || "").split('|').map(u => u.trim());
+            const img1 = arrayImagenes[0] || 'https://via.placeholder.com/300';
+            const img2 = arrayImagenes.length > 1 ? arrayImagenes[1] : img1;
+
+            const bloquePrecioMayorista = ACTIVAR_MAYORISTA 
+                ? `<p class="font-black text-emerald-600 text-sm">$${pMayARS.toLocaleString('es-AR', {minimumFractionDigits: 2})} <span class="text-[9px] font-normal text-slate-400">x mayor</span></p>` 
+                : `<p class="font-black text-emerald-600 text-sm">$${pMinARS.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>`;
+
+            const bloquePrecioMinorista = ACTIVAR_MAYORISTA 
+                ? `<p class="text-[10px] line-through text-slate-400">$${pMinARS.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>` 
+                : ``;
+
+            contenedor.innerHTML += `
+                <div onclick="abrirModal('${prod.id}')" class="bg-white p-3.5 sm:p-4 rounded-2xl shadow-sm border border-slate-200/80 flex flex-col justify-between cursor-pointer hover:shadow-md hover:border-slate-200 relative">
+                    ${cartelUrgencia}
+                    <div>
+                        <div class="relative overflow-hidden rounded-xl bg-slate-50 mb-3 h-36 sm:h-44 group-hover:scale-105 transition-transform duration-300">
+                            <img src="${img2}" class="absolute inset-0 w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/300'">
+                            <img src="${img1}" class="absolute inset-0 w-full h-full object-cover hover-img bg-slate-50" onerror="this.src='https://via.placeholder.com/300'">
+                        </div>
+                        <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-1">${prod.categoria || 'General'}</span>
+                        <h3 class="font-bold text-slate-900 text-xs sm:text-sm leading-snug mb-2 group-hover:text-emerald-600 transition-colors line-clamp-2">${prod.nombre}</h3>
+                    </div>
+                    <div class="flex justify-between items-end border-t border-slate-100 pt-2.5 mt-2">
+                        <div>
+                            ${bloquePrecioMinorista}
+                            ${bloquePrecioMayorista}
+                        </div>
+                        ${botonHTML}
+                    </div>
+                </div>
+            `;
+        });
+    } catch (e) {
+        console.error('Error en dibujarProductos:', e);
     }
+}
 
-    lista.forEach(prod => {
+// ==========================================
+// 5. POPUP MODAL
+// ==========================================
+function abrirModal(id) {
+    try {
+        const prod = productos.find(p => p.id.toString() === id.toString());
+        if (!prod) return;
+
+        productoModalActual = prod;
+
         const pMinUSD = parseFloat(prod.precio_minorista) || 0;
         const pMayUSD = parseFloat(prod.precio_mayorista) || 0;
-        
+
         const pMinARS = redondearPrecioPsicologico(pMinUSD * cotizacionDolar);
         const pMayARS = redondearPrecioPsicologico(pMayUSD * cotizacionDolar);
 
@@ -153,160 +254,93 @@ function dibujarProductos(lista) {
         const cantidadStock = esStockNumerico ? parseInt(stockTxt) : 0;
         const tieneStock = esStockNumerico ? cantidadStock > 0 : (stockTxt === 'si' || stockTxt === 'disponible');
 
-        const botonHTML = tieneStock 
-            ? `<button onclick="event.stopPropagation(); agregarAlCarrito('${prod.id}', 1)" class="bg-slate-900 hover:bg-slate-800 text-white px-3 py-1.5 rounded-xl text-xs font-bold transition-transform duration-200">Agregar</button>`
-            : `<button disabled class="bg-slate-100 text-slate-400 px-3 py-1.5 rounded-xl text-xs font-bold cursor-not-allowed z-20 relative">Agotado</button>`;
-
-        let cartelUrgencia = '';
-        if (tieneStock && esStockNumerico && cantidadStock <= UMBRAL_STOCK_FOMO) {
-            // FOMO Dinámico en el Home (Singular vs Plural)
-            const textoUrgencia = cantidadStock === 1 ? "¡Última unidad!" : "¡Últimas unidades!";
-            cartelUrgencia = `
-                <div class="absolute top-2 right-2 z-10 bg-red-600 text-white text-[9px] font-black uppercase tracking-wider px-2 py-1 rounded-full shadow-md shadow-red-500/30 animate-pulse">
-                    ${textoUrgencia}
-                </div>
-            `;
-        }
-
         const arrayImagenes = (prod.imagen || "").split('|').map(u => u.trim());
-        const img1 = arrayImagenes[0] || 'https://via.placeholder.com/300';
-        const img2 = arrayImagenes.length > 1 ? arrayImagenes[1] : img1;
+        const fotoPrincipal = document.getElementById('modal-imagen');
+        if (fotoPrincipal) fotoPrincipal.src = arrayImagenes[0] || 'https://via.placeholder.com/300';
+        
+        const galeriaContenedor = document.getElementById('modal-galeria');
+        if (galeriaContenedor) galeriaContenedor.innerHTML = ""; 
+        
+        if (arrayImagenes.length > 1 && galeriaContenedor) {
+            galeriaContenedor.classList.remove('hidden');
+            arrayImagenes.forEach((imgSrc) => {
+                galeriaContenedor.innerHTML += `
+                    <button onclick="cambiarFotoModal('${imgSrc}')" class="w-14 h-14 shrink-0 rounded-lg overflow-hidden border-2 border-transparent hover:border-slate-900 focus:border-slate-900 transition-all mr-2">
+                        <img src="${imgSrc}" class="w-full h-full object-cover">
+                    </button>
+                `;
+            });
+        } else if (galeriaContenedor) {
+            galeriaContenedor.classList.add('hidden'); 
+        }
 
-        const bloquePrecioMayorista = ACTIVAR_MAYORISTA 
-            ? `<p class="font-black text-emerald-600 text-sm">$${pMayARS.toLocaleString('es-AR', {minimumFractionDigits: 2})} <span class="text-[9px] font-normal text-slate-400">x mayor</span></p>` 
-            : `<p class="font-black text-emerald-600 text-sm">$${pMinARS.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>`;
+        const modalCategoriaEl = document.getElementById('modal-categoria');
+        if (modalCategoriaEl) modalCategoriaEl.innerText = prod.categoria || 'Producto';
+        const modalNombreEl = document.getElementById('modal-nombre');
+        if (modalNombreEl) modalNombreEl.innerText = prod.nombre;
+        
+        const elDesc = document.getElementById('modal-descripcion');
+        if (elDesc) elDesc.innerText = prod.descripcion || 'Sin descripción disponible.';
 
-        const bloquePrecioMinorista = ACTIVAR_MAYORISTA 
-            ? `<p class="text-[10px] line-through text-slate-400">$${pMinARS.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>` 
-            : ``;
-
-        contenedor.innerHTML += `
-            <div onclick="abrirModal('${prod.id}')" class="bg-white p-3.5 sm:p-4 rounded-2xl shadow-sm border border-slate-200/80 flex flex-col justify-between cursor-pointer hover:shadow-md hover:border-slate-200 relative">
-                ${cartelUrgencia}
-                <div>
-                    <div class="relative overflow-hidden rounded-xl bg-slate-50 mb-3 h-36 sm:h-44 group-hover:scale-105 transition-transform duration-300">
-                        <img src="${img2}" class="absolute inset-0 w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/300'">
-                        <img src="${img1}" class="absolute inset-0 w-full h-full object-cover hover-img bg-slate-50" onerror="this.src='https://via.placeholder.com/300'">
+        const contenedorPreciosModal = document.getElementById('contenedor-precios-modal');
+        if (contenedorPreciosModal) {
+            if (ACTIVAR_MAYORISTA) {
+                contenedorPreciosModal.classList.add('grid', 'grid-cols-2');
+                contenedorPreciosModal.classList.remove('flex', 'justify-center');
+                contenedorPreciosModal.innerHTML = `
+                    <div class="border-r border-slate-200/60 pr-2">
+                        <p class="text-[10px] text-slate-400 font-semibold uppercase">Minorista</p>
+                        <p id="modal-precio-min" class="text-sm font-bold text-slate-500 line-through">$${pMinARS.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
                     </div>
-                    <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-1">${prod.categoria || 'General'}</span>
-                    <h3 class="font-bold text-slate-900 text-xs sm:text-sm leading-snug mb-2 group-hover:text-emerald-600 transition-colors line-clamp-2">${prod.nombre}</h3>
-                </div>
-                <div class="flex justify-between items-end border-t border-slate-100 pt-2.5 mt-2">
+                    <div class="pl-2">
+                        <p class="text-[10px] text-emerald-600 font-bold uppercase">Mayorista</p>
+                        <p id="modal-precio-may" class="text-lg font-black text-emerald-600">$${pMayARS.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
+                    </div>
+                `;
+            } else {
+                contenedorPreciosModal.classList.remove('grid', 'grid-cols-2');
+                contenedorPreciosModal.classList.add('flex', 'justify-center', 'text-center');
+                contenedorPreciosModal.innerHTML = `
                     <div>
-                        ${bloquePrecioMinorista}
-                        ${bloquePrecioMayorista}
+                        <p class="text-[10px] text-emerald-600 font-bold uppercase">Precio Unitario</p>
+                        <p id="modal-precio-may" class="text-2xl font-black text-emerald-600">$${pMinARS.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
                     </div>
-                    ${botonHTML}
-                </div>
-            </div>
-        `;
-    });
-}
-
-// ==========================================
-// 5. POPUP MODAL
-// ==========================================
-function abrirModal(id) {
-    const prod = productos.find(p => p.id.toString() === id.toString());
-    if (!prod) return;
-
-    productoModalActual = prod;
-
-    const pMinUSD = parseFloat(prod.precio_minorista) || 0;
-    const pMayUSD = parseFloat(prod.precio_mayorista) || 0;
-
-    const pMinARS = redondearPrecioPsicologico(pMinUSD * cotizacionDolar);
-    const pMayARS = redondearPrecioPsicologico(pMayUSD * cotizacionDolar);
-
-    const stockTxt = (prod.stock || '').toString().toLowerCase().trim();
-    const esStockNumerico = !isNaN(parseInt(stockTxt));
-    const cantidadStock = esStockNumerico ? parseInt(stockTxt) : 0;
-    const tieneStock = esStockNumerico ? cantidadStock > 0 : (stockTxt === 'si' || stockTxt === 'disponible');
-
-    const arrayImagenes = (prod.imagen || "").split('|').map(u => u.trim());
-    const fotoPrincipal = document.getElementById('modal-imagen');
-    if (fotoPrincipal) fotoPrincipal.src = arrayImagenes[0] || 'https://via.placeholder.com/300';
-    
-    const galeriaContenedor = document.getElementById('modal-galeria');
-    if (galeriaContenedor) galeriaContenedor.innerHTML = ""; 
-    
-    if (arrayImagenes.length > 1 && galeriaContenedor) {
-        galeriaContenedor.classList.remove('hidden');
-        arrayImagenes.forEach((imgSrc) => {
-            galeriaContenedor.innerHTML += `
-                <button onclick="cambiarFotoModal('${imgSrc}')" class="w-14 h-14 shrink-0 rounded-lg overflow-hidden border-2 border-transparent hover:border-slate-900 focus:border-slate-900 transition-all mr-2">
-                    <img src="${imgSrc}" class="w-full h-full object-cover">
-                </button>
-            `;
-        });
-    } else if (galeriaContenedor) {
-        galeriaContenedor.classList.add('hidden'); 
-    }
-
-    const modalCategoriaEl = document.getElementById('modal-categoria');
-    if (modalCategoriaEl) modalCategoriaEl.innerText = prod.categoria || 'Producto';
-    const modalNombreEl = document.getElementById('modal-nombre');
-    if (modalNombreEl) modalNombreEl.innerText = prod.nombre;
-    
-    const elDesc = document.getElementById('modal-descripcion');
-    if (elDesc) elDesc.innerText = prod.descripcion || 'Sin descripción disponible.';
-
-    const contenedorPreciosModal = document.getElementById('contenedor-precios-modal');
-    if (contenedorPreciosModal) {
-        if (ACTIVAR_MAYORISTA) {
-            contenedorPreciosModal.classList.add('grid', 'grid-cols-2');
-            contenedorPreciosModal.classList.remove('flex', 'justify-center');
-            contenedorPreciosModal.innerHTML = `
-                <div class="border-r border-slate-200/60 pr-2">
-                    <p class="text-[10px] text-slate-400 font-semibold uppercase">Minorista</p>
-                    <p id="modal-precio-min" class="text-sm font-bold text-slate-500 line-through">$${pMinARS.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
-                </div>
-                <div class="pl-2">
-                    <p class="text-[10px] text-emerald-600 font-bold uppercase">Mayorista</p>
-                    <p id="modal-precio-may" class="text-lg font-black text-emerald-600">$${pMayARS.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
-                </div>
-            `;
-        } else {
-            contenedorPreciosModal.classList.remove('grid', 'grid-cols-2');
-            contenedorPreciosModal.classList.add('flex', 'justify-center', 'text-center');
-            contenedorPreciosModal.innerHTML = `
-                <div>
-                    <p class="text-[10px] text-emerald-600 font-bold uppercase">Precio Unitario</p>
-                    <p id="modal-precio-may" class="text-2xl font-black text-emerald-600">$${pMinARS.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
-                </div>
-            `;
+                `;
+            }
         }
-    }
 
-    const inputCant = document.getElementById('modal-cantidad');
-    if (inputCant) inputCant.value = 1;
+        const inputCant = document.getElementById('modal-cantidad');
+        if (inputCant) inputCant.value = 1;
 
-    const badgeContainer = document.getElementById('modal-stock-badge');
-    const btnContainer = document.getElementById('modal-btn-container');
+        const badgeContainer = document.getElementById('modal-stock-badge');
+        const btnContainer = document.getElementById('modal-btn-container');
 
-    if (tieneStock) {
-        // FOMO Dinámico en el Modal (Singular vs Plural)
-        if (esStockNumerico && cantidadStock <= UMBRAL_STOCK_FOMO) {
-            const textoModalUrgencia = cantidadStock === 1 
-                ? "🔥 ¡Solo queda 1 unidad!" 
-                : `🔥 ¡Solo quedan ${cantidadStock} unidades!`;
+        if (tieneStock) {
+            if (esStockNumerico && cantidadStock <= UMBRAL_STOCK_FOMO) {
+                const textoModalUrgencia = cantidadStock === 1 
+                    ? "🔥 ¡Solo queda 1 unidad!" 
+                    : `🔥 ¡Solo quedan ${cantidadStock} unidades!`;
 
-            if (badgeContainer) badgeContainer.innerHTML = `
-                <span class="inline-block bg-red-100 text-red-700 text-[10px] font-bold px-2.5 py-0.5 rounded-full border border-red-200 animate-pulse">
-                    ${textoModalUrgencia}
-                </span>
-            `;
-        } else if (badgeContainer) {
-            badgeContainer.innerHTML = `<span class="inline-block bg-emerald-50 text-emerald-700 text-[10px] font-bold px-2.5 py-0.5 rounded-full border border-emerald-200">● En Stock</span>`;
+                if (badgeContainer) badgeContainer.innerHTML = `
+                    <span class="inline-block bg-red-100 text-red-700 text-[10px] font-bold px-2.5 py-0.5 rounded-full border border-red-200 animate-pulse">
+                        ${textoModalUrgencia}
+                    </span>
+                `;
+            } else if (badgeContainer) {
+                badgeContainer.innerHTML = `<span class="inline-block bg-emerald-50 text-emerald-700 text-[10px] font-bold px-2.5 py-0.5 rounded-full border border-emerald-200">● En Stock</span>`;
+            }
+            if (btnContainer) btnContainer.innerHTML = `<button onclick="confirmarAgregarModal()" class="w-full bg-slate-900 text-white py-2.5 rounded-xl font-bold text-xs hover:bg-slate-800 transition-all active:scale-95">Agregar al carrito</button>`;
+        } else if (badgeContainer && btnContainer) {
+            badgeContainer.innerHTML = `<span class="inline-block bg-red-50 text-red-700 text-[10px] font-bold px-2.5 py-0.5 rounded-full border border-red-200">● Agotado</span>`;
+            btnContainer.innerHTML = `<button disabled class="w-full bg-slate-100 text-slate-400 py-2.5 rounded-xl font-bold text-xs cursor-not-allowed">Sin Stock</button>`;
         }
-        if (btnContainer) btnContainer.innerHTML = `<button onclick="confirmarAgregarModal()" class="w-full bg-slate-900 text-white py-2.5 rounded-xl font-bold text-xs hover:bg-slate-800 transition-all active:scale-95">Agregar al carrito</button>`;
-    } else if (badgeContainer && btnContainer) {
-        badgeContainer.innerHTML = `<span class="inline-block bg-red-50 text-red-700 text-[10px] font-bold px-2.5 py-0.5 rounded-full border border-red-200">● Agotado</span>`;
-        btnContainer.innerHTML = `<button disabled class="w-full bg-slate-100 text-slate-400 py-2.5 rounded-xl font-bold text-xs cursor-not-allowed">Sin Stock</button>`;
-    }
 
-    const modalDetalle = document.getElementById('modal-detalle');
-    if (modalDetalle) modalDetalle.classList.remove('hidden');
+        const modalDetalle = document.getElementById('modal-detalle');
+        if (modalDetalle) modalDetalle.classList.remove('hidden');
+
+    } catch (e) {
+        console.error('Error en abrirModal:', e);
+    }
 }
 
 function cambiarFotoModal(url) {
@@ -374,68 +408,73 @@ function agregarAlCarrito(id, cantidad = 1) {
 }
 
 function actualizarCarrito() {
-    const lista = document.getElementById('lista-carrito');
-    const totalEl = document.getElementById('total-precio');
-    const totalMobile = document.getElementById('total-precio-mobile');
-    const cantMobile = document.getElementById('cant-items-mobile');
-    const badgeTotalItems = document.getElementById('badge-total-items');
-    const avisoEl = document.getElementById('aviso-mayorista');
-    
-    if (!lista) return;
-    lista.innerHTML = "";
+    try {
+        const lista = document.getElementById('lista-carrito');
+        const totalEl = document.getElementById('total-precio');
+        const totalMobile = document.getElementById('total-precio-mobile');
+        const cantMobile = document.getElementById('cant-items-mobile');
+        const badgeTotalItems = document.getElementById('badge-total-items');
+        const avisoEl = document.getElementById('aviso-mayorista');
+        
+        if (!lista) return;
+        lista.innerHTML = "";
 
-    const totalUnidades = carrito.reduce((acc, item) => acc + item.cantidad, 0);
-    const aplicaMayorista = ACTIVAR_MAYORISTA && (totalUnidades >= CANTIDAD_MINIMA_MAYORISTA);
-    let totalARS = 0;
+        const totalUnidades = carrito.reduce((acc, item) => acc + item.cantidad, 0);
+        const aplicaMayorista = ACTIVAR_MAYORISTA && (totalUnidades >= CANTIDAD_MINIMA_MAYORISTA);
+        let totalARS = 0;
 
-    carrito.forEach((item, idx) => {
-        const prod = item.producto;
-        const pUSD = aplicaMayorista ? parseFloat(prod.precio_mayorista) : parseFloat(prod.precio_minorista);
-        const pARS = redondearPrecioPsicologico(pUSD * cotizacionDolar);
-        const subtotal = pARS * item.cantidad;
-        totalARS += subtotal;
+        carrito.forEach((item, idx) => {
+            const prod = item.producto;
+            const pUSD = aplicaMayorista ? parseFloat(prod.precio_mayorista) : parseFloat(prod.precio_minorista);
+            const pARS = redondearPrecioPsicologico(pUSD * cotizacionDolar);
+            const subtotal = pARS * item.cantidad;
+            totalARS += subtotal;
 
-        lista.innerHTML += `
-            <div class="flex items-center justify-between bg-slate-50 p-2 rounded-xl text-xs border border-slate-100">
-                <div class="pr-2 truncate">
-                    <p class="font-bold text-slate-800 truncate">${prod.nombre}</p>
-                    <p class="text-[10px] text-slate-400">$${pARS.toLocaleString('es-AR', {minimumFractionDigits: 2})} c/u</p>
-                </div>
-                <div class="flex items-center gap-2 shrink-0">
-                    <div class="flex items-center border bg-white rounded-lg px-1">
-                        <button onclick="modificarCantidadCarrito(${idx}, -1)" class="px-1 text-slate-500 font-bold">-</button>
-                        <span class="px-1.5 font-bold text-slate-900">${item.cantidad}</span>
-                        <button onclick="modificarCantidadCarrito(${idx}, 1)" class="px-1 text-slate-500 font-bold">+</button>
+            lista.innerHTML += `
+                <div class="flex items-center justify-between bg-slate-50 p-2 rounded-xl text-xs border border-slate-100">
+                    <div class="pr-2 truncate">
+                        <p class="font-bold text-slate-800 truncate">${prod.nombre}</p>
+                        <p class="text-[10px] text-slate-400">$${pARS.toLocaleString('es-AR', {minimumFractionDigits: 2})} c/u</p>
                     </div>
-                    <button onclick="eliminarDelCarrito(${idx})" class="text-red-500 font-bold hover:text-red-700 text-xs px-1">✕</button>
+                    <div class="flex items-center gap-2 shrink-0">
+                        <div class="flex items-center border bg-white rounded-lg px-1">
+                            <button onclick="modificarCantidadCarrito(${idx}, -1)" class="px-1 text-slate-500 font-bold">-</button>
+                            <span class="px-1.5 font-bold text-slate-900">${item.cantidad}</span>
+                            <button onclick="modificarCantidadCarrito(${idx}, 1)" class="px-1 text-slate-500 font-bold">+</button>
+                        </div>
+                        <button onclick="eliminarDelCarrito(${idx})" class="text-red-500 font-bold hover:text-red-700 text-xs px-1">✕</button>
+                    </div>
                 </div>
-            </div>
-        `;
-    });
+            `;
+        });
 
-    if (totalEl) totalEl.innerText = totalARS.toLocaleString('es-AR', {minimumFractionDigits: 2});
-    if (totalMobile) totalMobile.innerText = totalARS.toLocaleString('es-AR', {minimumFractionDigits: 2});
-    if (cantMobile) cantMobile.innerText = totalUnidades;
-    if (badgeTotalItems) badgeTotalItems.innerText = `${totalUnidades} item${totalUnidades !== 1 ? 's' : ''}`;
+        if (totalEl) totalEl.innerText = totalARS.toLocaleString('es-AR', {minimumFractionDigits: 2});
+        if (totalMobile) totalMobile.innerText = totalARS.toLocaleString('es-AR', {minimumFractionDigits: 2});
+        if (cantMobile) cantMobile.innerText = totalUnidades;
+        if (badgeTotalItems) badgeTotalItems.innerText = `${totalUnidades} item${totalUnidades !== 1 ? 's' : ''}`;
 
-    if (avisoEl) {
-        if (!ACTIVAR_MAYORISTA) {
-            avisoEl.style.display = 'none'; 
-        } else {
-            avisoEl.style.display = 'block';
-            if (aplicaMayorista) {
-                avisoEl.innerText = "¡Precios mayoristas aplicados!";
-                avisoEl.className = "text-xs font-bold text-emerald-700 mb-4 bg-emerald-50 p-2.5 rounded-xl border border-emerald-200 text-center";
+        if (avisoEl) {
+            if (!ACTIVAR_MAYORISTA) {
+                avisoEl.style.display = 'none'; 
             } else {
-                const faltantes = CANTIDAD_MINIMA_MAYORISTA - totalUnidades;
-                avisoEl.innerText = `Llevá ${faltantes} un. más para precio mayorista.`;
-                avisoEl.className = "text-xs font-semibold text-amber-800 mb-4 bg-amber-50 p-2.5 rounded-xl border border-amber-200 text-center";
+                avisoEl.style.display = 'block';
+                if (aplicaMayorista) {
+                    avisoEl.innerText = "¡Precios mayoristas aplicados!";
+                    avisoEl.className = "text-xs font-bold text-emerald-700 mb-4 bg-emerald-50 p-2.5 rounded-xl border border-emerald-200 text-center";
+                } else {
+                    const faltantes = CANTIDAD_MINIMA_MAYORISTA - totalUnidades;
+                    avisoEl.innerText = `Llevá ${faltantes} un. más para precio mayorista.`;
+                    avisoEl.className = "text-xs font-semibold text-amber-800 mb-4 bg-amber-50 p-2.5 rounded-xl border border-amber-200 text-center";
+                }
             }
         }
-    }
 
-    // actualizar badge de navegación móvil si existe
-    try { if (typeof refreshNavBadge === 'function') refreshNavBadge(); } catch(e) {}
+        // actualizar badge de navegación móvil si existe
+        try { if (typeof refreshNavBadge === 'function') refreshNavBadge(); } catch(e) { console.warn('refreshNavBadge error', e); }
+
+    } catch (e) {
+        console.error('Error en actualizarCarrito:', e);
+    }
 }
 
 function modificarCantidadCarrito(idx, delta) {
@@ -556,7 +595,6 @@ function initBottomNav() {
       inp.focus();
       inp.scrollIntoView({ behavior: 'smooth', block: 'center' });
     } else {
-      // Si no hay input, abrir contenedor de búsqueda si existe
       const cont = document.getElementById('contenedor-categorias');
       if (cont) cont.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
@@ -567,7 +605,6 @@ function initBottomNav() {
     const cont = document.getElementById('contenedor-categorias');
     if (cont) {
       cont.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      // pequeño highlight visual
       cont.style.transition = 'box-shadow 0.35s';
       cont.style.boxShadow = '0 0 0 4px rgba(34,197,94,0.06)';
       setTimeout(() => cont.style.boxShadow = '', 700);
@@ -576,15 +613,12 @@ function initBottomNav() {
 
   btnCart.addEventListener('click', () => {
     setActive(btnCart);
-    // Actualizar carrito si existe la función
     if (typeof actualizarCarrito === 'function') actualizarCarrito();
-    // Intentar scrollear al listado del carrito
     const lista = document.getElementById('lista-carrito');
     if (lista) lista.scrollIntoView({ behavior: 'smooth', block: 'center' });
     else window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
-  // badge refresher function (reactive usage via refreshNavBadge)
   function updateCartBadge() {
     try {
       const total = Array.isArray(carrito) ? carrito.reduce((s, it) => s + (parseInt(it.cantidad) || 0), 0) : 0;
@@ -599,20 +633,23 @@ function initBottomNav() {
     }
   }
 
-  // expose a small helper so actualizarCarrito can call it instead of polling
   window.refreshNavBadge = updateCartBadge;
 
   updateCartBadge();
-  // keep a light polling fallback for older flows
   const _poll = setInterval(updateCartBadge, 1500);
 
-  // establecer inicio activo por defecto
   setActive(btnHome);
 }
 
 // Iniciar app al cargar la página configurando todo primero
 document.addEventListener('DOMContentLoaded', () => {
-    configurarInterfaz();
-    CargarCSV();
+    try {
+        configurarInterfaz();
+    } catch(e) { console.warn('configurarInterfaz error', e); }
+
+    try {
+        CargarCSV();
+    } catch(e) { console.error('CargarCSV error', e); }
+
     try { initBottomNav(); } catch(e) { console.error('initBottomNav error', e); }
 });
