@@ -62,7 +62,7 @@ function configurarInterfaz() {
         if (textoCant) textoCant.innerText = `${CANTIDAD_MINIMA_MAYORISTA} o más unidades`;
     } else {
         document.title = "Catálogo de Productos";
-        if (tituloPrincipal) tituloPrincipal.innerText = "CATÁLOGO DE PRODUCTOS";
+        if (tituloPrincipal) tituloPrincipal.innerText = "CATÁLOGO DIGITAL";
         if (bannerPromo) bannerPromo.style.display = "none"; 
     }
 }
