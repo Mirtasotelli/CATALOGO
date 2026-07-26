@@ -189,7 +189,7 @@ function dibujarProductos(lista) {
             if (tieneStock && esStockNumerico && cantidadStock <= UMBRAL_STOCK_FOMO) {
                 const textoUrgencia = cantidadStock === 1 ? "¡Última unidad!" : "¡Últimas unidades!";
                 cartelUrgencia = `
-                    <div class="absolute top-2 right-2 z-10 bg-red-600 text-white text-[9px] font-black uppercase tracking-wider px-2 py-1 rounded-full shadow-md shadow-red-500/30 animate-pulse">
+                    <div class="absolute top-3 right-3 z-20 bg-red-600 text-white text-[9px] font-black uppercase tracking-wider px-2 py-1 rounded-full shadow-md shadow-red-500/30 animate-pulse pointer-events-none">
                         ${textoUrgencia}
                     </div>
                 `;
@@ -220,7 +220,7 @@ function dibujarProductos(lista) {
             }
 
             contenedor.innerHTML += `
-                <div onclick="abrirModal('${prod.id}')" class="bg-white p-3.5 sm:p-4 rounded-2xl shadow-sm border border-slate-200/80 flex flex-col justify-between cursor-pointer hover:shadow-md transition-all group">
+                <div onclick="abrirModal('${prod.id}')" class="relative bg-white p-3.5 sm:p-4 rounded-2xl shadow-sm border border-slate-200/80 flex flex-col justify-between cursor-pointer hover:shadow-md transition-all group overflow-hidden">
                     ${cartelUrgencia}
                     <div>
                         <div class="relative overflow-hidden rounded-xl bg-slate-50 mb-3 h-36 sm:h-44 group-hover:scale-105 transition-transform duration-300">
