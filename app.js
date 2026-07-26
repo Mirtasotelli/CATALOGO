@@ -69,7 +69,6 @@ function configurarInterfaz() {
 
 function redondearPrecioPsicologico(valor) {
     if (valor <= 0) return 0;
-    // Solo aplicar redondeo psicológico si el importe supera 1000 ARS
     if (valor >= 1000) {
         return Math.round(valor / 1000) * 1000 - 0.01;
     }
@@ -90,13 +89,15 @@ async function obtenerDolar() {
 }
 
 // ==========================================
-// 2. CARGAR Y PROCESAR CSV (VERSIÓN CORREGIDA Y ROBUSTA)
+// 2. CARGAR Y PROCESAR CSV (ROBUSTO)
 // ==========================================
 async function CargarCSV() {
     await obtenerDolar();
     
     if (typeof Papa === 'undefined') {
-        console.error('PapaParse no está definido. Asegurate de cargar la librería PapaParse antes de app.js');
+        console.error('PapaParse no está definido. Revisa si la CDN de PapaParse está cargada en index.html');
+        const contenedor = document.getElementById('contenedor-productos');
+        if (contenedor) contenedor.innerHTML = `<div class="col-span-full py-16 text-center text-red-500 font-medium">Error al cargar la librería de lectura CSV (PapaParse).</div>`;
         return;
     }
 
@@ -104,6 +105,8 @@ async function CargarCSV() {
         const respuesta = await fetch(URL_CSV_DIRECTO);
         if (!respuesta.ok) {
             console.error('No se pudo cargar el CSV:', respuesta.status, respuesta.statusText);
+            const contenedor = document.getElementById('contenedor-productos');
+            if (contenedor) contenedor.innerHTML = `<div class="col-span-full py-16 text-center text-red-500 font-medium">Error al obtener el archivo de productos.</div>`;
             return;
         }
         const textoCSV = await respuesta.text();
@@ -117,14 +120,12 @@ async function CargarCSV() {
 
                     let datos = results.data
                         .map((row, index) => {
-                            // Normalizar nombres de columnas a minúsculas y sin espacios extras
                             const p = {};
                             Object.keys(row).forEach(key => {
                                 const keyLimpia = key.trim().toLowerCase();
                                 p[keyLimpia] = row[key];
                             });
 
-                            // Autogenerar ID único si el producto no trae ID o viene vacío
                             const idLimpio = p.id ? String(p.id).trim() : `prod-${index + 1}`;
                             const nombre = p.nombre || p.producto || p.articulo || '';
 
@@ -134,16 +135,13 @@ async function CargarCSV() {
                                 nombre: nombre.trim()
                             };
                         })
-                        // Filtrar únicamente los que tengan un nombre válido
                         .filter(p => p.nombre !== '')
-                        // Evitar que productos con el mismo ID sean ignorados por completo
                         .filter(p => {
                             if (idsVistos.has(p.id)) return false;
                             idsVistos.add(p.id);
                             return true;
                         });
 
-                    // Ordenar por disponibilidad de stock
                     datos.sort((a, b) => {
                         const obtenerValorStock = (stockTxt) => {
                             const txt = String(stockTxt || '').toLowerCase().trim();
@@ -158,8 +156,6 @@ async function CargarCSV() {
                     productos = datos;
                     generarBotonesCategorias();
                     filtrarProductos();
-                    
-                    // Verificar si se accedió vía enlace compartido con ID de producto (?prod=ID)
                     verificarProductoEnURL();
                 } catch (innerE) {
                     console.error('Error procesando CSV:', innerE);
@@ -411,7 +407,7 @@ function abrirModal(id) {
         const modalDetalle = document.getElementById('modal-detalle');
         if (modalDetalle) {
             modalDetalle.classList.remove('hidden');
-            document.body.classList.add('overflow-hidden'); // Evita scroll de fondo
+            document.body.classList.add('overflow-hidden');
         }
 
     } catch (e) {
@@ -601,21 +597,10 @@ function enviarWhatsApp() {
 
     if (!nombre || !direccion) return alert("Por favor, completá Nombre y Dirección.");
 
-    let msj = ACTIVAR_MAYORISTA ? `📦 *NUEVO PEDIDO MAYORISTA*
-
-` : `📦 *NUEVO PEDIDO*
-
-`;
-    msj += `👤 *Cliente:* ${nombre}
-📍 *Dirección:* ${direccion}
-`;
-    if (nota) msj += `📝 *Nota:* ${nota}
-`;
-    msj += `
---------------------------------
-
-🛒 *Detalle del Pedido:*
-`;
+    let msj = ACTIVAR_MAYORISTA ? "📦 *NUEVO PEDIDO MAYORISTA*\n\n" : "📦 *NUEVO PEDIDO*\n\n";
+    msj += `👤 *Cliente:* ${nombre}\n📍 *Dirección:* ${direccion}\n`;
+    if (nota) msj += `📝 *Nota:* ${nota}\n`;
+    msj += "\n--------------------------------\n\n🛒 *Detalle del Pedido:*\n";
 
     const totalUnidades = carrito.reduce((acc, item) => acc + item.cantidad, 0);
     const aplicaMayorista = ACTIVAR_MAYORISTA && (totalUnidades >= CANTIDAD_MINIMA_MAYORISTA);
@@ -631,16 +616,10 @@ function enviarWhatsApp() {
         totalARS += subtotal;
         totalUSD += subtotalUSD;
 
-        msj += `• ${item.cantidad}x ${prod.nombre}
-   $${subtotal.toLocaleString('es-AR', {minimumFractionDigits: 2})} / USD ${subtotalUSD.toLocaleString('es-AR', {minimumFractionDigits: 2})}
-`;
+        msj += `• ${item.cantidad}x ${prod.nombre}\n   $${subtotal.toLocaleString('es-AR', {minimumFractionDigits: 2})} / USD ${subtotalUSD.toLocaleString('es-AR', {minimumFractionDigits: 2})}\n`;
     });
 
-    msj += `
---------------------------------
-💰 *TOTAL:*
-$${totalARS.toLocaleString('es-AR', {minimumFractionDigits: 2})} ARS
-USD ${totalUSD.toLocaleString('es-AR', {minimumFractionDigits: 2})}`;
+    msj += `\n--------------------------------\n💰 *TOTAL:*\n$${totalARS.toLocaleString('es-AR', {minimumFractionDigits: 2})} ARS\nUSD ${totalUSD.toLocaleString('es-AR', {minimumFractionDigits: 2})}`;
 
     window.open(`https://wa.me/${MI_NUMERO_WHATSAPP}?text=${encodeURIComponent(msj)}`, '_blank');
 }
@@ -683,7 +662,7 @@ function initBottomNav() {
         </button>
 
         <button id="mnav-search" class="mnav-item flex flex-col items-center text-slate-600 text-xs px-2 py-1 rounded-md active:scale-95">
-          <svg class="w-5 h-5 mb-0.5" viewBox="0 0 24 24" fill="currentColor"><path d="M21 20l-5.6-5.6A7 7 0 1 0 9 16a7 7 0 0 0 6.4-3.4L21 20zM11 16a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"/></svg>
+          <svg class="w-5 h-5 mb-0.5" viewBox="0 0 24 24" fill="currentColor"><path d="M21 20l-5.6-5.6A7 7 0 1 0 9 16a7 7 0 0 0 6.4-3.4L21 20zM11 16a5 5 0 1 1 0-10 5 5 0 0 0 6.4-3.4L21 20zM11 16a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"/></svg>
           <span class="block text-[10px]">Buscar</span>
         </button>
 
@@ -783,17 +762,11 @@ async function compartirProducto(redSocial) {
     const pARS = redondearPrecioPsicologico(pMinUSD * cotizacionDolar);
     const precioTexto = `$${pARS.toLocaleString('es-AR', {minimumFractionDigits: 2})} ARS (USD ${pMinUSD})`;
 
-    const textoMensaje = `¡Mirá este producto en nuestro catálogo! 🛍️
-
-*${prod.nombre}*
-💰 Precio: ${precioTexto}
-
-👉 Ver detalle aquí:`;
+    const textoMensaje = `¡Mirá este producto en nuestro catálogo! 🛍️\n\n*${prod.nombre}*\n💰 Precio: ${precioTexto}\n\n👉 Ver detalle aquí:`;
 
     switch (redSocial) {
         case 'whatsapp': {
-            const urlWA = `https://wa.me/?text=${encodeURIComponent(textoMensaje + "
-" + urlProducto)}`;
+            const urlWA = `https://wa.me/?text=${encodeURIComponent(textoMensaje + "\n" + urlProducto)}`;
             window.open(urlWA, '_blank');
             break;
         }
@@ -807,9 +780,7 @@ async function compartirProducto(redSocial) {
         case 'instagram': {
             try {
                 await navigator.clipboard.writeText(urlProducto);
-                alert("📋 ¡Enlace copiado al portapapeles!
-
-Podés pegarlo en tu Historia de Instagram usando el sticker de 'Enlace' o enviarlo por mensaje privado (DM).");
+                alert("📋 ¡Enlace copiado al portapapeles!\n\nPodés pegarlo en tu Historia de Instagram usando el sticker de 'Enlace' o enviarlo por mensaje privado (DM).");
             } catch (err) {
                 prompt("Copia este enlace para pegarlo en Instagram:", urlProducto);
             }
