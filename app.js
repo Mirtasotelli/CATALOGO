@@ -205,7 +205,7 @@ function dibujarProductos(lista) {
                 bloquePreciosGrilla = `
                     <div>
                         <p class="font-black text-emerald-600 text-sm">$${pMayARS.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
-                        <p class="text-sm font-bold text-blue-600">USD ${pMayUSD.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
+                        <p class="precio-usd-grilla">USD ${pMayUSD.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
                         <p class="text-[10px] line-through text-slate-400 mt-1">$${pMinARS.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
                         <p class="text-[10px] text-slate-300">USD ${pMinUSD.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
                     </div>
@@ -214,7 +214,7 @@ function dibujarProductos(lista) {
                 bloquePreciosGrilla = `
                     <div>
                         <p class="font-black text-emerald-600 text-sm">$${pMinARS.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
-                        <p class="text-sm font-bold text-blue-600">USD ${pMinUSD.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
+                        <p class="precio-usd-grilla">USD ${pMinUSD.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
                     </div>
                 `;
             }
@@ -300,12 +300,12 @@ function abrirModal(id) {
                     <div class="border-r border-slate-200/60 pr-2">
                         <p class="text-[10px] text-slate-400 font-semibold uppercase">Minorista</p>
                         <p class="text-sm font-bold text-slate-500 line-through">$${pMinARS.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
-                        <p class="text-base font-bold text-blue-600">USD ${pMinUSD.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
+                        <p class="precio-usd-modal">USD ${pMinUSD.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
                     </div>
                     <div class="pl-2">
                         <p class="text-[10px] text-emerald-600 font-bold uppercase">Mayorista</p>
                         <p class="text-lg font-black text-emerald-600">$${pMayARS.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
-                        <p class="text-lg font-bold text-blue-600">USD ${pMayUSD.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
+                        <p class="precio-usd-modal">USD ${pMayUSD.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
                     </div>
                 `;
             } else {
@@ -315,7 +315,7 @@ function abrirModal(id) {
                     <div>
                         <p class="text-[10px] text-emerald-600 font-bold uppercase">Precio Unitario</p>
                         <p class="text-2xl font-black text-emerald-600">$${pMinARS.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
-                        <p class="text-xl font-bold text-blue-600 mt-2">USD ${pMinUSD.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
+                        <p class="precio-usd-modal mt-2">USD ${pMinUSD.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
                     </div>
                 `;
             }
@@ -450,7 +450,7 @@ function actualizarCarrito() {
                     <div class="pr-2 truncate flex-1">
                         <p class="font-bold text-slate-800 truncate">${prod.nombre}</p>
                         <p class="text-[10px] text-slate-400">$${pARS.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
-                        <p class="text-sm font-bold text-blue-600">USD ${pUSD.toLocaleString('es-AR', {minimumFractionDigits: 2})} c/u</p>
+                        <p class="precio-usd-carrito">USD ${pUSD.toLocaleString('es-AR', {minimumFractionDigits: 2})} c/u</p>
                     </div>
                     <div class="flex items-center gap-2 shrink-0">
                         <div class="flex items-center border bg-white rounded-lg px-1">
@@ -466,7 +466,7 @@ function actualizarCarrito() {
 
         // Actualizar totales en escritorio
         if (totalEl) {
-            totalEl.innerHTML = `<div class="text-2xl font-black text-slate-900">$${totalARS.toLocaleString('es-AR', {minimumFractionDigits: 2})}</div><div class="text-lg font-bold text-blue-600 mt-1">USD ${totalUSD.toLocaleString('es-AR', {minimumFractionDigits: 2})}</div>`;
+            totalEl.innerHTML = `<div class="text-2xl font-black text-slate-900">$${totalARS.toLocaleString('es-AR', {minimumFractionDigits: 2})}</div><div class="total-usd-desktop mt-1">USD ${totalUSD.toLocaleString('es-AR', {minimumFractionDigits: 2})}</div>`;
         }
         
         // Actualizar totales en móvil
@@ -550,6 +550,29 @@ function enviarWhatsApp() {
     msj += `\n--------------------------------\n💰 *TOTAL:*\n$${totalARS.toLocaleString('es-AR', {minimumFractionDigits: 2})} ARS\nUSD ${totalUSD.toLocaleString('es-AR', {minimumFractionDigits: 2})}`;
 
     window.open(`https://wa.me/${MI_NUMERO_WHATSAPP}?text=${encodeURIComponent(msj)}`, '_blank');
+}
+
+// ===== Botón Subir al Inicio (versión Web Desktop) =====
+function initScrollToTop() {
+    const html = `
+        <button id="btn-scroll-top" class="fixed bottom-6 right-6 z-40 hidden lg:flex items-center justify-center w-12 h-12 bg-slate-900 hover:bg-slate-800 text-white rounded-full shadow-lg hover:shadow-xl transition-all opacity-0 hover:scale-110" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })" title="Subir al inicio">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M7 14l5-5 5 5z"></path></svg>
+        </button>
+    `;
+    
+    document.body.insertAdjacentHTML('beforeend', html);
+    
+    const btn = document.getElementById('btn-scroll-top');
+    
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+            btn.classList.remove('opacity-0');
+            btn.classList.add('opacity-100');
+        } else {
+            btn.classList.add('opacity-0');
+            btn.classList.remove('opacity-100');
+        }
+    });
 }
 
 // ===== Navegación inferior estilo app (Tailwind) =====
@@ -677,4 +700,6 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch(e) { console.error('CargarCSV error', e); }
 
     try { initBottomNav(); } catch(e) { console.error('initBottomNav error', e); }
+    
+    try { initScrollToTop(); } catch(e) { console.error('initScrollToTop error', e); }
 });
