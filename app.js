@@ -42,12 +42,20 @@ function escapeHTML(str) {
 // ==========================================
 // INICIALIZACIÓN DE LA APLICACIÓN
 // ==========================================
-document.addEventListener('DOMContentLoaded', () => {
+function iniciarAplicacion() {
     configurarInterfaz();
     CargarCSV();
     initScrollToTop();
     initBottomNav();
     configurarBuscadorDebounce();
+}
+
+// Si el DOM aún está cargando, escucha el evento. Si ya cargó, ejecuta inmediatamente.
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', iniciarAplicacion);
+} else {
+    iniciarAplicacion();
+}
 });
 
 function configurarInterfaz() {
