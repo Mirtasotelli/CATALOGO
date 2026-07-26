@@ -154,21 +154,20 @@ function filtrarProductos() {
 }
 
 // ==========================================
-// 4. RENDERIZAR PRODUCTOS EN GRILLA
+// 4. RENDERIZAR PRODUCTOS EN GRILLA (OPTIMIZADO)
 // ==========================================
 function dibujarProductos(lista) {
     try {
         const contenedor = document.getElementById('contenedor-productos');
         if (!contenedor) return;
 
-        contenedor.innerHTML = "";
-
         if (!Array.isArray(lista) || lista.length === 0) {
             contenedor.innerHTML = `<div class="col-span-full py-16 text-center text-slate-400 font-medium">No se encontraron artículos.</div>`;
             return;
         }
 
-        lista.forEach(prod => {
+        // Se usa .map().join('') para renderizar todo en un solo impacto al DOM
+        contenedor.innerHTML = lista.map(prod => {
             const pMinUSD = parseFloat(prod.precio_minorista) || 0;
             const pMayUSD = parseFloat(prod.precio_mayorista) || 0;
             
@@ -217,8 +216,7 @@ function dibujarProductos(lista) {
                 `;
             }
 
-            // AJUSTE WEB Y MOBILE: object-contain forzado + padding interno
-            contenedor.innerHTML += `
+            return `
                 <div onclick="abrirModal('${prod.id}')" class="relative bg-white p-3.5 sm:p-4 rounded-2xl shadow-sm border border-slate-200/80 flex flex-col justify-between cursor-pointer hover:shadow-md transition-all group overflow-hidden">
                     ${cartelUrgencia}
                     <div>
@@ -235,7 +233,7 @@ function dibujarProductos(lista) {
                     </div>
                 </div>
             `;
-        });
+        }).join('');
     } catch (e) {
         console.error('Error en dibujarProductos:', e);
     }
@@ -264,7 +262,6 @@ function abrirModal(id) {
 
         const arrayImagenes = (prod.imagen || "").split('|').map(u => u.trim());
         
-        // REDIMENSIONADO FOTO MODAL PARA WEB Y MOBILE
         const fotoPrincipal = document.getElementById('modal-imagen');
         if (fotoPrincipal) {
             fotoPrincipal.src = arrayImagenes[0] || 'https://via.placeholder.com/300';
@@ -424,6 +421,18 @@ function agregarAlCarrito(id, cantidad = 1) {
     actualizarCarrito();
 }
 
+function refreshNavBadge() {
+    const badge = document.getElementById('mnav-badge');
+    if (!badge) return;
+    const totalUnidades = carrito.reduce((acc, item) => acc + item.cantidad, 0);
+    if (totalUnidades > 0) {
+        badge.innerText = totalUnidades;
+        badge.classList.remove('hidden');
+    } else {
+        badge.classList.add('hidden');
+    }
+}
+
 function actualizarCarrito() {
     try {
         const lista = document.getElementById('lista-carrito');
@@ -496,7 +505,7 @@ function actualizarCarrito() {
             }
         }
 
-        try { if (typeof refreshNavBadge === 'function') refreshNavBadge(); } catch(e) { console.warn('refreshNavBadge error', e); }
+        refreshNavBadge();
 
     } catch (e) {
         console.error('Error en actualizarCarrito:', e);
@@ -614,19 +623,16 @@ function initBottomNav() {
   const btnSearch = document.getElementById('mnav-search');
   const btnCats = document.getElementById('mnav-cats');
   const btnCart = document.getElementById('mnav-cart');
-  const badge = document.getElementById('mnav-badge');
 
   function clearActive() {
     document.querySelectorAll('#mnav .mnav-item').forEach(el => {
       el.classList.remove('text-white', 'bg-slate-900');
-      el.classList.remove('on');
       el.classList.add('text-slate-600');
     });
   }
 
   function setActive(el) {
     clearActive();
-    el.classList.add('on');
     el.classList.remove('text-slate-600');
     el.classList.add('text-white', 'bg-slate-900');
   }
@@ -666,30 +672,16 @@ function initBottomNav() {
     setActive(btnCart);
     if (typeof actualizarCarrito === 'function') actualizarCarrito();
     const lista = document.getElementById('lista-carrito');
-    if (lista) lista.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    else window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
-
-  function updateCartBadge() {
-    try {
-      const total = Array.isArray(carrito) ? carrito.reduce((s, it) => s + (parseInt(it.cantidad) || 0), 0) : 0;
-      if (total > 0) {
-        badge.classList.remove('hidden');
-        badge.textContent = total > 99 ? '99+' : String(total);
-      } else {
-        badge.classList.add('hidden');
-      }
-    } catch (e) {
-      badge.classList.add('hidden');
+    if (lista) {
+      lista.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } else {
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     }
-  }
-
-  window.refreshNavBadge = updateCartBadge;
-  updateCartBadge();
+  });
 }
 
 // ==========================================
-// INICIALIZACIÓN AUTOMÁTICA AL CARGAR
+// INICIALIZACIÓN
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
     configurarInterfaz();
