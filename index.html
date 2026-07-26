@@ -27,18 +27,6 @@
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
     <style>
-        /* Asegura visualización de imágenes */
-        #contenedor-productos img {
-            object-fit: contain !important;
-            max-height: 100% !important;
-            width: 100% !important;
-        }
-
-        #modal-imagen {
-            object-fit: contain !important;
-            max-height: 420px !important;
-        }
-
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
@@ -47,13 +35,6 @@
             to { opacity: 1; transform: scale(1) translateY(0); }
         }
         .animate-modal { animation: modalIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-        
-        .hover-img {
-            transition: opacity 0.3s ease-in-out;
-        }
-        .hover-img:hover {
-            opacity: 0;
-        }
 
         /* Estilos responsive para precios */
         .precio-usd-grilla {
@@ -63,9 +44,7 @@
         }
 
         @media (min-width: 1024px) {
-            .precio-usd-grilla {
-                font-size: 1.125rem;
-            }
+            .precio-usd-grilla { font-size: 1.125rem; }
         }
 
         .precio-usd-modal {
@@ -75,9 +54,7 @@
         }
 
         @media (min-width: 768px) {
-            .precio-usd-modal {
-                font-size: 1.25rem;
-            }
+            .precio-usd-modal { font-size: 1.25rem; }
         }
 
         .precio-usd-carrito {
@@ -87,15 +64,23 @@
         }
 
         @media (min-width: 1024px) {
-            .precio-usd-carrito {
-                font-size: 1rem;
-            }
+            .precio-usd-carrito { font-size: 1rem; }
         }
 
         .total-usd-desktop {
             font-size: 1.125rem;
             font-weight: 700;
             color: #2563eb;
+        }
+
+        /* Estilos de Carrusel en Grilla */
+        .slider-container {
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+        }
+        .slider-item {
+            scroll-snap-align: start;
+            flex-shrink: 0;
         }
     </style>
 </head>
@@ -109,7 +94,6 @@
                     C
                 </div>
                 <div>
-                    <!-- El JS modificará este título -->
                     <h1 id="titulo-principal" class="text-base sm:text-lg font-black tracking-tight text-slate-900 leading-none">CATÁLOGO</h1>
                     <p class="text-[10px] font-bold text-emerald-600 uppercase tracking-widest mt-0.5 flex items-center gap-1">
                         <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Cotización Blue En Vivo
@@ -126,7 +110,7 @@
         </div>
     </header>
 
-    <!-- Banner Mayorista Dinámico (Se oculta o muestra desde el JS) -->
+    <!-- Banner Mayorista Dinámico -->
     <div id="banner-promocional" class="bg-slate-900 text-white border-b border-slate-800 py-3 px-4 hidden">
         <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between text-center sm:text-left gap-2">
             <div class="flex items-center gap-2">
@@ -142,7 +126,6 @@
 
     <!-- Contenido Principal -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-grow">
-        
         <div class="flex flex-col lg:flex-row gap-8">
             
             <!-- Productos y Filtros -->
@@ -213,8 +196,8 @@
             </button>
 
             <div class="overflow-y-auto flex-grow no-scrollbar pb-6">
-                <div class="relative bg-slate-100 h-64 w-full shrink-0">
-                    <img id="modal-imagen" src="" alt="" class="w-full h-full object-cover transition-opacity duration-300">
+                <div class="relative bg-slate-100 h-64 w-full shrink-0 flex items-center justify-center p-4">
+                    <img id="modal-imagen" src="" alt="" class="max-h-full max-w-full object-contain transition-opacity duration-300">
                     <span id="modal-categoria" class="absolute bottom-3 left-3 bg-slate-900/80 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full backdrop-blur-md uppercase tracking-widest"></span>
                 </div>
 
@@ -225,7 +208,6 @@
                     <h3 id="modal-nombre" class="text-lg font-black text-slate-900 leading-snug mb-1"></h3>
                     <p id="modal-descripcion" class="text-xs text-slate-500 mb-4 leading-relaxed"></p>
 
-                    <!-- Precios dinámicos inyectados por JS -->
                     <div id="contenedor-precios-modal"></div>
 
                     <div class="space-y-1.5">
