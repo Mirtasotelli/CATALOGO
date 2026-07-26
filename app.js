@@ -126,7 +126,7 @@ function generarBotonesCategorias() {
 
         contenedor.innerHTML = categorias.map(cat => `
             <button onclick="seleccionarCategoria('${cat.replace(/'/g, "\\'")}')" 
-                    class="btn-categoria text-xs font-bold px-3.5 py-1.5 rounded-full whitespace-nowrap transition-all ${cat === categoriaActiva ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-600'}">
+                    class="btn-categoria text-xs font-bold px-3.5 py-1.5 rounded-full whitespace-nowrap transition-all ${cat === categoriaActiva ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}">
                 ${cat}
             </button>
         `).join('');
@@ -182,7 +182,7 @@ function dibujarProductos(lista) {
             const tieneStock = esStockNumerico ? cantidadStock > 0 : (stockTxt === 'si' || stockTxt === 'disponible');
 
             const botonHTML = tieneStock 
-                ? `<button onclick="event.stopPropagation(); agregarAlCarrito('${prod.id}', 1)" class="bg-slate-900 hover:bg-slate-800 text-white px-3 py-1.5 rounded-xl text-xs font-bold transition-transform duration-200">Agregar</button>`
+                ? `<button onclick="event.stopPropagation(); agregarAlCarrito('${prod.id}', 1)" class="bg-slate-900 hover:bg-slate-800 text-white px-3 py-1.5 rounded-xl text-xs font-bold transition-all z-20 relative">Agregar</button>`
                 : `<button disabled class="bg-slate-100 text-slate-400 px-3 py-1.5 rounded-xl text-xs font-bold cursor-not-allowed z-20 relative">Agotado</button>`;
 
             let cartelUrgencia = '';
@@ -199,16 +199,28 @@ function dibujarProductos(lista) {
             const img1 = arrayImagenes[0] || 'https://via.placeholder.com/300';
             const img2 = arrayImagenes.length > 1 ? arrayImagenes[1] : img1;
 
-            const bloquePrecioMayorista = ACTIVAR_MAYORISTA 
-                ? `<p class="font-black text-emerald-600 text-sm">$${pMayARS.toLocaleString('es-AR', {minimumFractionDigits: 2})} <span class="text-[9px] font-normal text-slate-400">x mayor</span></p>` 
-                : `<p class="font-black text-emerald-600 text-sm">$${pMinARS.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>`;
-
-            const bloquePrecioMinorista = ACTIVAR_MAYORISTA 
-                ? `<p class="text-[10px] line-through text-slate-400">$${pMinARS.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>` 
-                : ``;
+            // Bloque de precios para grilla
+            let bloquePreciosGrilla = '';
+            if (ACTIVAR_MAYORISTA) {
+                bloquePreciosGrilla = `
+                    <div>
+                        <p class="font-black text-emerald-600 text-sm">$${pMayARS.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
+                        <p class="text-[9px] text-slate-400">USD ${pMayUSD.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
+                        <p class="text-[10px] line-through text-slate-400 mt-1">$${pMinARS.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
+                        <p class="text-[9px] text-slate-300">USD ${pMinUSD.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
+                    </div>
+                `;
+            } else {
+                bloquePreciosGrilla = `
+                    <div>
+                        <p class="font-black text-emerald-600 text-sm">$${pMinARS.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
+                        <p class="text-[9px] text-slate-400">USD ${pMinUSD.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
+                    </div>
+                `;
+            }
 
             contenedor.innerHTML += `
-                <div onclick="abrirModal('${prod.id}')" class="bg-white p-3.5 sm:p-4 rounded-2xl shadow-sm border border-slate-200/80 flex flex-col justify-between cursor-pointer hover:shadow-md hover:border-slate-200 relative">
+                <div onclick="abrirModal('${prod.id}')" class="bg-white p-3.5 sm:p-4 rounded-2xl shadow-sm border border-slate-200/80 flex flex-col justify-between cursor-pointer hover:shadow-md transition-all group">
                     ${cartelUrgencia}
                     <div>
                         <div class="relative overflow-hidden rounded-xl bg-slate-50 mb-3 h-36 sm:h-44 group-hover:scale-105 transition-transform duration-300">
@@ -219,10 +231,7 @@ function dibujarProductos(lista) {
                         <h3 class="font-bold text-slate-900 text-xs sm:text-sm leading-snug mb-2 group-hover:text-emerald-600 transition-colors line-clamp-2">${prod.nombre}</h3>
                     </div>
                     <div class="flex justify-between items-end border-t border-slate-100 pt-2.5 mt-2">
-                        <div>
-                            ${bloquePrecioMinorista}
-                            ${bloquePrecioMayorista}
-                        </div>
+                        ${bloquePreciosGrilla}
                         ${botonHTML}
                     </div>
                 </div>
@@ -265,7 +274,7 @@ function abrirModal(id) {
             galeriaContenedor.classList.remove('hidden');
             arrayImagenes.forEach((imgSrc) => {
                 galeriaContenedor.innerHTML += `
-                    <button onclick="cambiarFotoModal('${imgSrc}')" class="w-14 h-14 shrink-0 rounded-lg overflow-hidden border-2 border-transparent hover:border-slate-900 focus:border-slate-900 transition-all mr-2">
+                    <button onclick="cambiarFotoModal('${imgSrc}')" class="w-14 h-14 shrink-0 rounded-lg overflow-hidden border-2 border-transparent hover:border-slate-900 focus:border-slate-900 transition-all">
                         <img src="${imgSrc}" class="w-full h-full object-cover">
                     </button>
                 `;
@@ -290,20 +299,23 @@ function abrirModal(id) {
                 contenedorPreciosModal.innerHTML = `
                     <div class="border-r border-slate-200/60 pr-2">
                         <p class="text-[10px] text-slate-400 font-semibold uppercase">Minorista</p>
-                        <p id="modal-precio-min" class="text-sm font-bold text-slate-500 line-through">$${pMinARS.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
+                        <p class="text-sm font-bold text-slate-500 line-through">$${pMinARS.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
+                        <p class="text-[9px] text-slate-400">USD ${pMinUSD.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
                     </div>
                     <div class="pl-2">
                         <p class="text-[10px] text-emerald-600 font-bold uppercase">Mayorista</p>
-                        <p id="modal-precio-may" class="text-lg font-black text-emerald-600">$${pMayARS.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
+                        <p class="text-lg font-black text-emerald-600">$${pMayARS.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
+                        <p class="text-[9px] text-emerald-600">USD ${pMayUSD.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
                     </div>
                 `;
             } else {
                 contenedorPreciosModal.classList.remove('grid', 'grid-cols-2');
-                contenedorPreciosModal.classList.add('flex', 'justify-center', 'text-center');
+                contenedorPreciosModal.classList.add('flex', 'justify-center', 'text-center', 'flex-col');
                 contenedorPreciosModal.innerHTML = `
                     <div>
                         <p class="text-[10px] text-emerald-600 font-bold uppercase">Precio Unitario</p>
-                        <p id="modal-precio-may" class="text-2xl font-black text-emerald-600">$${pMinARS.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
+                        <p class="text-2xl font-black text-emerald-600">$${pMinARS.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
+                        <p class="text-[10px] text-slate-400 mt-1">USD ${pMinUSD.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
                     </div>
                 `;
             }
@@ -329,7 +341,7 @@ function abrirModal(id) {
             } else if (badgeContainer) {
                 badgeContainer.innerHTML = `<span class="inline-block bg-emerald-50 text-emerald-700 text-[10px] font-bold px-2.5 py-0.5 rounded-full border border-emerald-200">● En Stock</span>`;
             }
-            if (btnContainer) btnContainer.innerHTML = `<button onclick="confirmarAgregarModal()" class="w-full bg-slate-900 text-white py-2.5 rounded-xl font-bold text-xs hover:bg-slate-800 transition-all active:scale-95">Agregar al carrito</button>`;
+            if (btnContainer) btnContainer.innerHTML = `<button onclick="confirmarAgregarModal()" class="w-full bg-slate-900 text-white py-2.5 rounded-xl font-bold text-xs hover:bg-slate-800 transition-all">Agregar al Carrito</button>`;
         } else if (badgeContainer && btnContainer) {
             badgeContainer.innerHTML = `<span class="inline-block bg-red-50 text-red-700 text-[10px] font-bold px-2.5 py-0.5 rounded-full border border-red-200">● Agotado</span>`;
             btnContainer.innerHTML = `<button disabled class="w-full bg-slate-100 text-slate-400 py-2.5 rounded-xl font-bold text-xs cursor-not-allowed">Sin Stock</button>`;
@@ -422,19 +434,23 @@ function actualizarCarrito() {
         const totalUnidades = carrito.reduce((acc, item) => acc + item.cantidad, 0);
         const aplicaMayorista = ACTIVAR_MAYORISTA && (totalUnidades >= CANTIDAD_MINIMA_MAYORISTA);
         let totalARS = 0;
+        let totalUSD = 0;
 
         carrito.forEach((item, idx) => {
             const prod = item.producto;
             const pUSD = aplicaMayorista ? parseFloat(prod.precio_mayorista) : parseFloat(prod.precio_minorista);
             const pARS = redondearPrecioPsicologico(pUSD * cotizacionDolar);
             const subtotal = pARS * item.cantidad;
+            const subtotalUSD = pUSD * item.cantidad;
             totalARS += subtotal;
+            totalUSD += subtotalUSD;
 
             lista.innerHTML += `
                 <div class="flex items-center justify-between bg-slate-50 p-2 rounded-xl text-xs border border-slate-100">
-                    <div class="pr-2 truncate">
+                    <div class="pr-2 truncate flex-1">
                         <p class="font-bold text-slate-800 truncate">${prod.nombre}</p>
-                        <p class="text-[10px] text-slate-400">$${pARS.toLocaleString('es-AR', {minimumFractionDigits: 2})} c/u</p>
+                        <p class="text-[10px] text-slate-400">$${pARS.toLocaleString('es-AR', {minimumFractionDigits: 2})}</p>
+                        <p class="text-[9px] text-slate-400">USD ${pUSD.toLocaleString('es-AR', {minimumFractionDigits: 2})} c/u</p>
                     </div>
                     <div class="flex items-center gap-2 shrink-0">
                         <div class="flex items-center border bg-white rounded-lg px-1">
@@ -448,8 +464,16 @@ function actualizarCarrito() {
             `;
         });
 
-        if (totalEl) totalEl.innerText = totalARS.toLocaleString('es-AR', {minimumFractionDigits: 2});
-        if (totalMobile) totalMobile.innerText = totalARS.toLocaleString('es-AR', {minimumFractionDigits: 2});
+        // Actualizar totales en escritorio
+        if (totalEl) {
+            totalEl.innerHTML = `<div class="text-2xl font-black text-slate-900">$${totalARS.toLocaleString('es-AR', {minimumFractionDigits: 2})}</div><div class="text-xs text-slate-400 mt-1">USD ${totalUSD.toLocaleString('es-AR', {minimumFractionDigits: 2})}</div>`;
+        }
+        
+        // Actualizar totales en móvil
+        if (totalMobile) {
+            totalMobile.innerHTML = `${totalARS.toLocaleString('es-AR', {minimumFractionDigits: 2})}`;
+        }
+        
         if (cantMobile) cantMobile.innerText = totalUnidades;
         if (badgeTotalItems) badgeTotalItems.innerText = `${totalUnidades} item${totalUnidades !== 1 ? 's' : ''}`;
 
@@ -509,18 +533,21 @@ function enviarWhatsApp() {
     const totalUnidades = carrito.reduce((acc, item) => acc + item.cantidad, 0);
     const aplicaMayorista = ACTIVAR_MAYORISTA && (totalUnidades >= CANTIDAD_MINIMA_MAYORISTA);
     let totalARS = 0;
+    let totalUSD = 0;
 
     carrito.forEach(item => {
         const prod = item.producto;
         const pUSD = aplicaMayorista ? parseFloat(prod.precio_mayorista) : parseFloat(prod.precio_minorista);
         const pARS = redondearPrecioPsicologico(pUSD * cotizacionDolar);
         const subtotal = pARS * item.cantidad;
+        const subtotalUSD = pUSD * item.cantidad;
         totalARS += subtotal;
+        totalUSD += subtotalUSD;
 
-        msj += `• ${item.cantidad}x ${prod.nombre} - *$${subtotal.toLocaleString('es-AR', {minimumFractionDigits: 2})}*\n`;
+        msj += `• ${item.cantidad}x ${prod.nombre}\n   $${subtotal.toLocaleString('es-AR', {minimumFractionDigits: 2})} / USD ${subtotalUSD.toLocaleString('es-AR', {minimumFractionDigits: 2})}\n`;
     });
 
-    msj += `\n--------------------------------\n💰 *TOTAL ESTIMADO: $${totalARS.toLocaleString('es-AR', {minimumFractionDigits: 2})} ARS*`;
+    msj += `\n--------------------------------\n💰 *TOTAL:*\n$${totalARS.toLocaleString('es-AR', {minimumFractionDigits: 2})} ARS\nUSD ${totalUSD.toLocaleString('es-AR', {minimumFractionDigits: 2})}`;
 
     window.open(`https://wa.me/${MI_NUMERO_WHATSAPP}?text=${encodeURIComponent(msj)}`, '_blank');
 }
@@ -548,7 +575,7 @@ function initBottomNav() {
         </button>
 
         <button id="mnav-cart" class="mnav-item relative flex flex-col items-center text-slate-600 text-xs px-2 py-1 rounded-md active:scale-95">
-          <svg class="w-5 h-5 mb-0.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4h-2l-1 2h2l3.6 7.59-1.35 2.45A1 1 0 0 0 8.2 17h8.45l1.6-7H6.21L5.27 6H7zM7 20a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 20zm10 0a2 2 0 1 0 .001 4.001A2 2 0 0 0 17 20z"/></svg>
+          <svg class="w-5 h-5 mb-0.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4h-2l-1 2h2l3.6 7.59-1.35 2.45A1 1 0 0 0 8.2 17h8.45l1.6-7H6.21L5.27 6H7zM7 20a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm10 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/></svg>
           <span id="mnav-badge" class="hidden absolute -top-1 right-3 min-w-[18px] text-[10px] font-bold text-white bg-red-500 rounded-full px-1.5 leading-none">0</span>
           <span class="block text-[10px]">Carrito</span>
         </button>
@@ -580,9 +607,7 @@ function initBottomNav() {
 
   btnHome.addEventListener('click', () => {
     setActive(btnHome);
-    // Selecciona "Todas" y filtra
     if (typeof seleccionarCategoria === 'function') seleccionarCategoria('Todas');
-    // limpiar búsqueda si existe
     const inp = document.getElementById('input-busqueda');
     if (inp) { inp.value = ''; }
     window.scrollTo({ top: 0, behavior: 'smooth' });
