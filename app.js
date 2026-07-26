@@ -87,7 +87,19 @@ async function CargarCSV() {
             skipEmptyLines: true,
             complete: function(results) {
                 try {
-                    let datos = results.data.filter(p => p && p.nombre);
+                    // CÓDIGO CORREGIDO (Elimina IDs duplicados automáticamente):
+let datosRaw = results.data.filter(p => p && p.nombre && p.id);
+
+// Guardamos solo el primer producto de cada ID
+const idsVistos = new Set();
+let datos = datosRaw.filter(p => {
+    const idLimpio = p.id.toString().trim();
+    if (idsVistos.has(idLimpio)) {
+        return false; // Descarta si el ID ya fue dibujado
+    }
+    idsVistos.add(idLimpio);
+    return true;
+});
 
                     // ORDENAR POR MAYOR STOCK PRIMERO
                     datos.sort((a, b) => {
