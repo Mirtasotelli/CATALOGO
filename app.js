@@ -9,7 +9,7 @@ window.addEventListener('error', function (e) {
 // ==========================================
 // CONFIGURACIÓN INICIAL
 // ==========================================
-const URL_CSV_DIRECTO = "https://raw.githubusercontent.com/tevo-mdp/prueba_caipser/main/productos.csv?nocache=" + Date.now(); 
+const URL_CSV_DIRECTO = "https://raw.githubusercontent.com/tevo-mdp/prueba_caipser/main/productos.csv?v=" + new Date().getTime(); 
 const MI_NUMERO_WHATSAPP = "5492235310709"; 
 
 // --- INTERRUPTOR DE PROMOCIÓN MAYORISTA ---
@@ -89,7 +89,7 @@ async function obtenerDolar() {
 }
 
 // ==========================================
-// 2. CARGAR Y PROCESAR CSV (ROBUSTO)
+// 2. CARGAR Y PROCESAR CSV (ULTRA TOLERANTE Y SIN CACHÉ)
 // ==========================================
 async function CargarCSV() {
     await obtenerDolar();
@@ -102,7 +102,7 @@ async function CargarCSV() {
     }
 
     try {
-        const respuesta = await fetch(URL_CSV_DIRECTO);
+        const respuesta = await fetch(URL_CSV_DIRECTO, { cache: 'no-store' });
         if (!respuesta.ok) {
             console.error('No se pudo cargar el CSV:', respuesta.status, respuesta.statusText);
             const contenedor = document.getElementById('contenedor-productos');
@@ -113,7 +113,7 @@ async function CargarCSV() {
 
         Papa.parse(textoCSV, {
             header: true,
-            skipEmptyLines: true,
+            skipEmptyLines: 'greedy',
             complete: function(results) {
                 try {
                     const idsVistos = new Set();
@@ -122,22 +122,33 @@ async function CargarCSV() {
                         .map((row, index) => {
                             const p = {};
                             Object.keys(row).forEach(key => {
-                                const keyLimpia = key.trim().toLowerCase();
-                                p[keyLimpia] = row[key];
+                                if (key) {
+                                    const keyLimpia = key.trim().toLowerCase();
+                                    p[keyLimpia] = row[key] ? String(row[key]).trim() : '';
+                                }
                             });
 
                             const idLimpio = p.id ? String(p.id).trim() : `prod-${index + 1}`;
-                            const nombre = p.nombre || p.producto || p.articulo || '';
+                            const nombre = p.nombre || p.producto || p.articulo || p.titulo || p.descripcion || '';
+
+                            let catLimpia = (p.categoria || 'General').trim();
+                            if (catLimpia) {
+                                catLimpia = catLimpia.charAt(0).toUpperCase() + catLimpia.slice(1);
+                            }
 
                             return {
                                 ...p,
                                 id: idLimpio,
-                                nombre: nombre.trim()
+                                nombre: nombre.trim(),
+                                categoria: catLimpia
                             };
                         })
-                        .filter(p => p.nombre !== '')
+                        .filter(p => p.nombre.length > 0)
                         .filter(p => {
-                            if (idsVistos.has(p.id)) return false;
+                            if (idsVistos.has(p.id)) {
+                                console.warn(`ID duplicado ignorado: ${p.id}`);
+                                return false;
+                            }
                             idsVistos.add(p.id);
                             return true;
                         });
@@ -154,6 +165,9 @@ async function CargarCSV() {
                     });
 
                     productos = datos;
+                    console.log(`Cargados ${productos.length} productos correctamente.`);
+                    console.log('¿Existe ID 82?:', productos.some(p => p.id === '82'));
+
                     generarBotonesCategorias();
                     filtrarProductos();
                     verificarProductoEnURL();
@@ -175,7 +189,17 @@ function generarBotonesCategorias() {
         const contenedor = document.getElementById('contenedor-categorias');
         if (!contenedor) return;
 
-        const categorias = ["Todas", ...new Set(productos.map(p => p.categoria).filter(Boolean))];
+        const categoriasUnicas = [...new Set(
+            productos
+                .map(p => p.categoria)
+                .filter(cat => cat && cat.trim() !== '')
+        )];
+
+        const categorias = ["Todas", ...categoriasUnicas];
+
+        if (!categorias.includes(categoriaActiva)) {
+            categoriaActiva = "Todas";
+        }
 
         contenedor.innerHTML = '';
         categorias.forEach(cat => {
