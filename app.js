@@ -217,14 +217,14 @@ function dibujarProductos(lista) {
                 `;
             }
 
-            // REDIMENSIONADO GRILLA: object-contain + padding p-2 en contenedor
+            // AJUSTE WEB Y MOBILE: object-contain forzado + padding interno
             contenedor.innerHTML += `
                 <div onclick="abrirModal('${prod.id}')" class="relative bg-white p-3.5 sm:p-4 rounded-2xl shadow-sm border border-slate-200/80 flex flex-col justify-between cursor-pointer hover:shadow-md transition-all group overflow-hidden">
                     ${cartelUrgencia}
                     <div>
-                        <div class="relative overflow-hidden rounded-xl bg-slate-50 mb-3 h-40 sm:h-48 p-2 flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
-                            <img src="${img2}" class="absolute inset-0 w-full h-full object-contain p-2" onerror="this.src='https://via.placeholder.com/300'">
-                            <img src="${img1}" class="absolute inset-0 w-full h-full object-contain p-2 hover-img bg-slate-50" onerror="this.src='https://via.placeholder.com/300'">
+                        <div class="relative overflow-hidden rounded-xl bg-slate-50 mb-3 h-48 sm:h-56 p-2 flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
+                            <img src="${img2}" class="w-full h-full object-contain max-h-full max-w-full p-2" style="object-fit: contain !important;" onerror="this.src='https://via.placeholder.com/300'">
+                            <img src="${img1}" class="absolute inset-0 w-full h-full object-contain max-h-full max-w-full p-2 hover-img bg-slate-50" style="object-fit: contain !important;" onerror="this.src='https://via.placeholder.com/300'">
                         </div>
                         <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-1">${prod.categoria || 'General'}</span>
                         <h3 class="font-bold text-slate-900 text-xs sm:text-sm leading-snug mb-2 group-hover:text-emerald-600 transition-colors line-clamp-2">${prod.nombre}</h3>
@@ -264,11 +264,12 @@ function abrirModal(id) {
 
         const arrayImagenes = (prod.imagen || "").split('|').map(u => u.trim());
         
-        // REDIMENSIONADO FOTO MODAL
+        // REDIMENSIONADO FOTO MODAL PARA WEB Y MOBILE
         const fotoPrincipal = document.getElementById('modal-imagen');
         if (fotoPrincipal) {
             fotoPrincipal.src = arrayImagenes[0] || 'https://via.placeholder.com/300';
-            fotoPrincipal.className = "w-full h-64 sm:h-80 object-contain mx-auto rounded-xl bg-slate-50 p-2 transition-opacity duration-200";
+            fotoPrincipal.className = "w-full h-64 sm:h-96 object-contain max-h-[80vh] mx-auto rounded-xl bg-slate-50 p-3 transition-opacity duration-200";
+            fotoPrincipal.style.objectFit = "contain";
         }
         
         const galeriaContenedor = document.getElementById('modal-galeria');
@@ -279,7 +280,7 @@ function abrirModal(id) {
             arrayImagenes.forEach((imgSrc) => {
                 galeriaContenedor.innerHTML += `
                     <button onclick="cambiarFotoModal('${imgSrc}')" class="w-14 h-14 shrink-0 rounded-lg overflow-hidden border-2 border-slate-100 hover:border-slate-900 focus:border-slate-900 transition-all bg-slate-50 p-1">
-                        <img src="${imgSrc}" class="w-full h-full object-contain">
+                        <img src="${imgSrc}" class="w-full h-full object-contain" style="object-fit: contain !important;">
                     </button>
                 `;
             });
