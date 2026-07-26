@@ -598,7 +598,7 @@ function initBottomNav() {
         </button>
 
         <button id="mnav-cart" class="mnav-item relative flex flex-col items-center text-slate-600 text-xs px-2 py-1 rounded-md active:scale-95">
-          <svg class="w-5 h-5 mb-0.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4h-2l-1 2h2l3.6 7.59-1.35 2.45A1 1 0 0 0 8.2 17h8.45l1.6-7H6.21L5.27 6H7zM7 20a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm10 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/></svg>
+          <svg class="w-5 h-5 mb-0.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
           <span id="mnav-badge" class="hidden absolute -top-1 right-3 min-w-[18px] text-[10px] font-bold text-white bg-red-500 rounded-full px-1.5 leading-none">0</span>
           <span class="block text-[10px]">Carrito</span>
         </button>
@@ -621,6 +621,7 @@ function initBottomNav() {
       el.classList.add('text-slate-600');
     });
   }
+
   function setActive(el) {
     clearActive();
     el.classList.add('on');
@@ -682,24 +683,15 @@ function initBottomNav() {
   }
 
   window.refreshNavBadge = updateCartBadge;
-
   updateCartBadge();
-  const _poll = setInterval(updateCartBadge, 1500);
-
-  setActive(btnHome);
 }
 
-// Iniciar app al cargar la página configurando todo primero
+// ==========================================
+// INICIALIZACIÓN AUTOMÁTICA AL CARGAR
+// ==========================================
 document.addEventListener('DOMContentLoaded', () => {
-    try {
-        configurarInterfaz();
-    } catch(e) { console.warn('configurarInterfaz error', e); }
-
-    try {
-        CargarCSV();
-    } catch(e) { console.error('CargarCSV error', e); }
-
-    try { initBottomNav(); } catch(e) { console.error('initBottomNav error', e); }
-    
-    try { initScrollToTop(); } catch(e) { console.error('initScrollToTop error', e); }
+    configurarInterfaz();
+    CargarCSV();
+    initScrollToTop();
+    initBottomNav();
 });
