@@ -69,7 +69,6 @@ async function obtenerDolar() {
 async function CargarCSV() {
     await obtenerDolar();
     
-    // Validar que PapaParse está disponible
     if (typeof Papa === 'undefined') {
         console.error('PapaParse no está definido. Asegurate de cargar la librería PapaParse antes de app.js');
         return;
@@ -199,7 +198,6 @@ function dibujarProductos(lista) {
             const img1 = arrayImagenes[0] || 'https://via.placeholder.com/300';
             const img2 = arrayImagenes.length > 1 ? arrayImagenes[1] : img1;
 
-            // Bloque de precios para grilla
             let bloquePreciosGrilla = '';
             if (ACTIVAR_MAYORISTA) {
                 bloquePreciosGrilla = `
@@ -219,13 +217,14 @@ function dibujarProductos(lista) {
                 `;
             }
 
+            // REDIMENSIONADO GRILLA: object-contain + padding p-2 en contenedor
             contenedor.innerHTML += `
                 <div onclick="abrirModal('${prod.id}')" class="relative bg-white p-3.5 sm:p-4 rounded-2xl shadow-sm border border-slate-200/80 flex flex-col justify-between cursor-pointer hover:shadow-md transition-all group overflow-hidden">
                     ${cartelUrgencia}
                     <div>
-                        <div class="relative overflow-hidden rounded-xl bg-slate-50 mb-3 h-36 sm:h-44 group-hover:scale-105 transition-transform duration-300">
-                            <img src="${img2}" class="absolute inset-0 w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/300'">
-                            <img src="${img1}" class="absolute inset-0 w-full h-full object-cover hover-img bg-slate-50" onerror="this.src='https://via.placeholder.com/300'">
+                        <div class="relative overflow-hidden rounded-xl bg-slate-50 mb-3 h-40 sm:h-48 p-2 flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
+                            <img src="${img2}" class="absolute inset-0 w-full h-full object-contain p-2" onerror="this.src='https://via.placeholder.com/300'">
+                            <img src="${img1}" class="absolute inset-0 w-full h-full object-contain p-2 hover-img bg-slate-50" onerror="this.src='https://via.placeholder.com/300'">
                         </div>
                         <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-1">${prod.categoria || 'General'}</span>
                         <h3 class="font-bold text-slate-900 text-xs sm:text-sm leading-snug mb-2 group-hover:text-emerald-600 transition-colors line-clamp-2">${prod.nombre}</h3>
@@ -264,8 +263,13 @@ function abrirModal(id) {
         const tieneStock = esStockNumerico ? cantidadStock > 0 : (stockTxt === 'si' || stockTxt === 'disponible');
 
         const arrayImagenes = (prod.imagen || "").split('|').map(u => u.trim());
+        
+        // REDIMENSIONADO FOTO MODAL
         const fotoPrincipal = document.getElementById('modal-imagen');
-        if (fotoPrincipal) fotoPrincipal.src = arrayImagenes[0] || 'https://via.placeholder.com/300';
+        if (fotoPrincipal) {
+            fotoPrincipal.src = arrayImagenes[0] || 'https://via.placeholder.com/300';
+            fotoPrincipal.className = "w-full h-64 sm:h-80 object-contain mx-auto rounded-xl bg-slate-50 p-2 transition-opacity duration-200";
+        }
         
         const galeriaContenedor = document.getElementById('modal-galeria');
         if (galeriaContenedor) galeriaContenedor.innerHTML = ""; 
@@ -274,8 +278,8 @@ function abrirModal(id) {
             galeriaContenedor.classList.remove('hidden');
             arrayImagenes.forEach((imgSrc) => {
                 galeriaContenedor.innerHTML += `
-                    <button onclick="cambiarFotoModal('${imgSrc}')" class="w-14 h-14 shrink-0 rounded-lg overflow-hidden border-2 border-transparent hover:border-slate-900 focus:border-slate-900 transition-all">
-                        <img src="${imgSrc}" class="w-full h-full object-cover">
+                    <button onclick="cambiarFotoModal('${imgSrc}')" class="w-14 h-14 shrink-0 rounded-lg overflow-hidden border-2 border-slate-100 hover:border-slate-900 focus:border-slate-900 transition-all bg-slate-50 p-1">
+                        <img src="${imgSrc}" class="w-full h-full object-contain">
                     </button>
                 `;
             });
@@ -464,12 +468,10 @@ function actualizarCarrito() {
             `;
         });
 
-        // Actualizar totales en escritorio
         if (totalEl) {
             totalEl.innerHTML = `<div class="text-2xl font-black text-slate-900">$${totalARS.toLocaleString('es-AR', {minimumFractionDigits: 2})}</div><div class="total-usd-desktop mt-1">USD ${totalUSD.toLocaleString('es-AR', {minimumFractionDigits: 2})}</div>`;
         }
         
-        // Actualizar totales en móvil
         if (totalMobile) {
             totalMobile.innerHTML = `${totalARS.toLocaleString('es-AR', {minimumFractionDigits: 2})}`;
         }
@@ -493,7 +495,6 @@ function actualizarCarrito() {
             }
         }
 
-        // actualizar badge de navegación móvil si existe
         try { if (typeof refreshNavBadge === 'function') refreshNavBadge(); } catch(e) { console.warn('refreshNavBadge error', e); }
 
     } catch (e) {
@@ -577,7 +578,7 @@ function initScrollToTop() {
 
 // ===== Navegación inferior estilo app (Tailwind) =====
 function initBottomNav() {
-  if (document.getElementById('mnav')) return; // no duplicar
+  if (document.getElementById('mnav')) return;
 
   const html = `
     <nav id="mnav" class="sm:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-sm border-t border-slate-200/60">
