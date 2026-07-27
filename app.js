@@ -69,7 +69,13 @@ function configurarInterfaz() {
 
 function redondearPrecioPsicologico(valor) {
     if (valor <= 0) return 0;
-    // Redondea al múltiplo de 500 más cercano (ej: 15.425 -> 15.500 | 28.342 -> 28.500)
+    
+    // Si el precio en pesos es menor a $10.000, redondea de 100 en 100
+    if (valor < 10000) {
+        return Math.round(valor / 100) * 100;
+    }
+    
+    // Si es mayor a $10.000, redondea de 500 en 500
     return Math.round(valor / 500) * 500;
 }
 
