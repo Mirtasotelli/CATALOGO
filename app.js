@@ -69,10 +69,8 @@ function configurarInterfaz() {
 
 function redondearPrecioPsicologico(valor) {
     if (valor <= 0) return 0;
-    if (valor >= 1000) {
-        return Math.round(valor / 1000) * 1000 - 0.01;
-    }
-    return Math.round(valor * 100) / 100;
+    // Redondea al múltiplo de 500 más cercano (ej: 15.425 -> 15.500 | 28.342 -> 28.500)
+    return Math.round(valor / 500) * 500;
 }
 
 // ==========================================
