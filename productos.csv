@@ -9,7 +9,7 @@ id,nombre,precio_minorista,precio_mayorista,categoria,stock,imagen,descripcion
 8,Body Splash VS - Pure Seduction (250ml),19.26,19,Body Splash,5,https://i.ibb.co/ynTQXDSP/VICTORIA-SECRET-BODY-SPLASH-PURE-SEDUCTION-CLASICO-250-ML.png,Aroma frutal intenso con ciruela roja exprimida y peonia dulce.
 9,Body Splash VS - Rush (250ml),19.26,19,Body Splash,5,https://i.ibb.co/yctKKgvq/VICTORIA-SECRET-BODY-SPLASH-RUSH-CLASICO-250-ML.png,COMPLETAR DESCRIPCION.
 10,Body Splash VS - Aqua Kiss (250ml),19.26,19,Body Splash,5,https://i.ibb.co/zHNvKhSV/VICTORIA-SECRET-BODY-SPLASH-AQUA-KISS-CLASICO-250-ML.png,COMPLETAR DESCRIPCION.
-11,Body Splash VS - Romantic (250ml),19.26,19,Body Splash,5,https://i.ibb.co/rfN5w9Vp/VICTORIA-SECRET-BODY-SPLASH-ROMANTIC-CLASICO-250-ML.png,COMPLETAR DESCRIPCION.
+11,Body Splash VS - Romantic (250ml),19.26,19,Body Splash,0,https://i.ibb.co/rfN5w9Vp/VICTORIA-SECRET-BODY-SPLASH-ROMANTIC-CLASICO-250-ML.png,COMPLETAR DESCRIPCION.
 12,Body Splash VS - Aqua Kiss Shimmer (250ml),19.26,19,Body Splash,0,https://i.ibb.co/v4pYDDWZ/BODY-SPLASH-VS-AQUA-KISS-SHIMMER-250-ML.png,COMPLETAR DESCRIPCION.
 13,Perfume Lattafa Art of Universe EDP (100ml),35,34,Perfumes Masculinos,1,https://i.ibb.co/CsvTTkGB/PERFUME-LATTAFA-ART-OF-UNIVERSE-EDP-100-ML.png,Fragancia Inspirada en Blue Talisman de Ex Nihilo.
 14,Perfume Lattafa Asad Bourbon EDP (100ml),38,37,Perfumes Masculinos,0,https://i.ibb.co/Csb3BFGz/PERFUME-LATTAFA-ASAD-BOURBON-100-ML.png,Aroma amaderado calido con notas de bourbon pimienta negra y vainilla especiada.
@@ -67,12 +67,12 @@ id,nombre,precio_minorista,precio_mayorista,categoria,stock,imagen,descripcion
 66,Power Bank Xiaomi Cargador Portatil 10.000 mhA 22.5W Azul oscuro,27,26,Productos en Tendencia,1,https://i.ibb.co/whzpkn2c/POWER-BANK-XIAOMI-10000-MHA-22-5-W-COLOR-AZUL-OSCURO.png,Viene equipado con 2 puertos de salida USB-A + 1 USB-C con protección contra sobrecargas.
 67,Power Bank Xiaomi Cargador Portatil 10.000 mhA 22.5W Blanco,27,26,Productos en Tendencia,4,https://i.ibb.co/jPP5B5Y6/POWER-BANK-XIAOMI-10000-MHA-22-5-W-COLOR-BLANCO.png,Viene equipado con 2 puertos de salida USB-A + 1 USB-C con protección contra sobrecargas.
 68,Termo Stanley Mate System 1.2lts (Color Toast),99,98,Productos en Tendencia,1,https://i.ibb.co/rKyXVxXC/TERMO-STANLEY-MATE-SYSTEM-1-2-LTS-COLOR-TOAST.png,COMPLETAR INFORMACION.
-69,Anafe Eléctrico Smartfy Quemador Espiral 1000W,15,1,Productos en Tendencia,8,https://i.ibb.co/nNm3LXZX/ANAFE-ELECTRICO-SMARTFY-QUEMADOR-ESPIRAL-1000-W.png,COMPLETAR INFORMACION.
+69,Anafe Eléctrico Smartfy Quemador Espiral 1000W,14,13,Productos en Tendencia,8,https://i.ibb.co/nNm3LXZX/ANAFE-ELECTRICO-SMARTFY-QUEMADOR-ESPIRAL-1000-W.png,COMPLETAR INFORMACION.
 70,Tensiómetro Digital de Brazo Ecopower 2773,18,17,Productos en Tendencia,0,https://i.ibb.co/xqChphy5/TENSIOMETRO-DIGITAL-DE-BRAZO-ECOPOWER-2773-CON-LECTURA-POR-VOZ.png,Pantalla LCD - Memoria - Lectura por voz - Bateria de larga duración via USB-C / Pilas.
 71,Consola Retro Game Stick M15 PRO,35,34,Productos en Tendencia,0,https://i.ibb.co/qMXR1qbp/CONSOLA-BLULORY-GAME-STICK-M15-PRO-2-CONTROLES.png,Incluye 2 Joystick Inalámbricos estilo PS5 - Conexión via HDMI - Mas de 20.000 juegos.
 72,Joystick Dualsense PS5,95,94,Productos en Tendencia,0,https://i.ibb.co/HTDHJrSS/JOYSTICK-PS5-DUALSENSE.png,Producto original en caja cerrada - Diferentes Colores.
-73,Kit Teclado & Mouse inalambrico Gamer Hk3800 2.4GHz,15,14,Productos en Tendencia,4,https://i.ibb.co/YFbr5DbL/KIT-TECLADO-MOUSE-INALAMBRICO-GAMER-HK3800-2-4-GHZ.png,Hasta 10mts de alcance - Utiliza Pilas AAA que no las incluye.
-74,Funda de Silicona Apple Calidad Premium,4,3,Productos en Tendencia,20,https://i.ibb.co/7x1DkX8h/FUNDAS-SILICONA-IPHONE-CON-LOGO-2.jpg,Todos los Modelos. Diferentes Colores.
+73,Kit Teclado & Mouse inalambrico Gamer Hk3800 2.4GHz,16,15,Productos en Tendencia,4,https://i.ibb.co/YFbr5DbL/KIT-TECLADO-MOUSE-INALAMBRICO-GAMER-HK3800-2-4-GHZ.png,Hasta 10mts de alcance - Utiliza Pilas AAA que no las incluye.
+74,Funda de Silicona Apple Calidad Premium,3.5,3,Productos en Tendencia,20,https://i.ibb.co/7x1DkX8h/FUNDAS-SILICONA-IPHONE-CON-LOGO-2.jpg,Todos los Modelos. Diferentes Colores.
 75,Vidrio Templado Calidad Premium,1,1,Productos en Tendencia,20,https://i.ibb.co/JFnxM4sy/VIDRIO-TEMPLADO-3-D.jpg,Todos los Modelos.
 76,Campera de Abrigo Capucha Unisex Estilo Montaña,32,31,Camperas,2,https://i.ibb.co/kgw8P1P1/CAMPERA-NEVADA-SIN-LOGO-COLOR-NEGRA.png,Ultimas Unidades Talle M y Talle L.
 77,Campera de Abrigo Reversible Unisex con capucha Color Crema,32,31,Camperas,2,https://i.ibb.co/278htn6G/CAMPERA-HOMBRE-CAPUCHA-REVERSIBLE-COLOR-CREMA.jpg,Ultimas Unidades Talle M y Talle XL.
