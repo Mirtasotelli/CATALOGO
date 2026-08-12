@@ -98,21 +98,23 @@ id,nombre,precio_minorista,precio_mayorista,categoria,stock,imagen,descripcion
 97,Telefono Philips Basico E2101 Dual Sim,29,28,Telefonos,1,https://i.ibb.co/rGG36Rq4/CELULAR-PHILIPS-BASICO-E2101-DUAL-CHIP.png,Producto Original Importado - No trae Whatsapp - Incluye Cargador.
 98,Telefono Samsung Galaxy A07 128GB / 4GB,179,178,Telefonos,0,https://i.ibb.co/sph2KZW9/CELULAR-SAMSUNG-GALAXY-A07-128-GB-4-GB.png,Producto Original Importado - No Incluye Cargador.
 99,Telefono Samsung Galaxy A16 128GB / 4GB,210,209,Telefonos,5,https://i.ibb.co/v4FMfjSD/TELEFONO-SAMSUNG-A16-128-GB-4-GB.png,Producto Original Importado - No Incluye Cargador.
-100,Telefono Samsung Galaxy S26 Ultra SM-S948B 256GB / 12GB,1160,1159,Telefonos,2,https://i.ibb.co/prJS1CGp/TELEFONO-SAMSUNG-GALAXY-S26-ULTRA-SM-5938-B.png,Producto Original Importado. No Incluye Cargador.
-101,Telefono Samsung Galaxy S26 Ultra SM-S948B 512GB / 12GB,1240,1239,Telefonos,2,https://i.ibb.co/prJS1CGp/TELEFONO-SAMSUNG-GALAXY-S26-ULTRA-SM-5938-B.png,Producto Original Importado. No Incluye Cargador.
-102,Telefono Iphone 14 128GB / 4GB,650,648,Telefonos,2,https://i.ibb.co/ccRNZw0L/TELEFONO-IPHONE-14-128-GB.png,Producto Original Importado - Funda & Templado de regalo - No Incluye Cargador.
-103,Telefono Iphone 15 128GB / 6GB,770,768,Telefonos,2,https://i.ibb.co/0pzRBSRH/TELEFONO-IPHONE-15-128-GB.png,Producto Original Importado - Funda & Templado de regalo - No Incluye Cargador.
-104,Telefono Iphone 17 256GB / 8GB,1000,1018,Telefonos,3,https://i.ibb.co/wrcSrkTB/TELEFONO-IPHONE-17-256-GB-8-GB-A3519.png,Producto Original Importado - Funda & Templado de regalo - No Incluye Cargador.
-105,Telefono Iphone 17 Pro 256GB / 12GB,1240,1239,Telefonos,3,https://i.ibb.co/nqLv0xs8/TELEFONO-IPHONE-17-PRO.png,Producto Original Importado - Funda & Templado de regalo - No Incluye Cargador.
-106,Telefono Iphone 17 Pro 512GB / 12GB,1450,1449,Telefonos,3,https://i.ibb.co/nqLv0xs8/TELEFONO-IPHONE-17-PRO.png,Producto Original Importado - Funda & Templado de regalo - No Incluye Cargador.
-107,Telefono Iphone 17 Pro Max 256GB / 12GB,1340,1339,Telefonos,3,https://i.ibb.co/WW5QsXD9/CELULAR-IPHONE-17-PRO-MAX-256-GB-12-GB.png,Producto Original Importado - Funda & Templado de regalo - No Incluye Cargador.
-108,Telefono Iphone 17 Pro Max 512GB / 12GB,1540,1539,Telefonos,3,https://i.ibb.co/WW5QsXD9/CELULAR-IPHONE-17-PRO-MAX-256-GB-12-GB.png,Producto Original Importado - Funda & Templado de regalo - No Incluye Cargador.
-109,Telefono Xiaomi Redmi 15C 256GB / 8GB,190,189,Telefonos,1,https://i.ibb.co/nNTf7XjH/CELULAR-XIAOMI-REDMI-15-C-16-GB-256-GB.png,Producto Original Importado - Funda & Templado de regalo - Incluye Cargador.
-110,Telefono Xiaomi Redmi Note 14 5G 256GB / 8GB,269,268,Telefonos,1,https://i.ibb.co/PZT2Bwbd/CELULAR-XIAOMI-REDMI-NOTE-14-5-G-256-GB-8-GB.png,Producto Original Importado - Incluye Cargador.
-111,Telefono Xiaomi Redmi Note 14 Pro Plus 5G 256GB / 8GB,369,368,Telefonos,1,https://i.ibb.co/1JQ31VJq/CELULAR-XIAOMI-REDMI-NOTE-14-PRO-PLUS-5-G-256-GB-8-GB.png,Producto Original Importado - Incluye Cargador.
-112,Telefono Motorola Moto G06 128GB / 4GB Dual Sim,195,194,Telefonos,5,https://i.ibb.co/5gnVXTzJ/TELEFONO-MOTO-G06-128-GB-4-GB-DUAL-SIM.png,Producto Original Importado - Incluye Cargador.
-113,Telefono Motorola Moto G15 256GB / 4GB,210,209,Telefonos,5,https://i.ibb.co/kNRL9cK/TELEFONO-MOTO-G15-256-GB-4-GB.png,Producto Original Importado - Incluye Cargador.
-114,Telefono Motorola Moto G56 256GB / 8GB,280,279,Telefonos,5,https://i.ibb.co/QF8zhKyR/TELEFONO-MOTO-G56-256-GB-8-GB.png,Producto Original Importado - Incluye Cargador.
-115,Telefono Motorola Moto Edge 60 Fusion 256GB / 8GB,350,378,Telefonos,5,https://i.ibb.co/4nRW6ZW4/TELEFONO-MOTO-EDGE-60-FUSION-256-GB-8-GB.png,Producto Original Importado - Incluye Cargador.
-116,Telefono Motorola Moto Edge 70 Fusion 256GB / 8GB,480,518,Telefonos,5,https://i.ibb.co/S7NfnMcv/TELEFONO-MOTO-EDGE-70-FUSION-256-GB-8-GB.png,Producto Original Importado - Incluye Cargador.
-117,Tablet Xiaomi Redmi Pad 2 11 Pulgadas 128GB / 4GB,270,269,Tablet,5,https://i.ibb.co/4nVx1D0Z/TABLET-XIAOMI-PAD-2-11-128-GB-4-GB.png,Producto Original Importado - Incluye Cargador.
+100,Telefono Samsung Galaxy S25 FE 256GB / 8GB,640,639,Telefonos,3,https://i.ibb.co/N6SbnML1/TELEFONO-SAMSUNG-S25-FE.png,Producto Original Importado. No Incluye Cargador.
+101,Telefono Samsung Galaxy S25 FE 512GB / 8GB,715,714,Telefonos,3,https://i.ibb.co/N6SbnML1/TELEFONO-SAMSUNG-S25-FE.png,Producto Original Importado. No Incluye Cargador.
+102,Telefono Samsung Galaxy S26 Ultra SM-S948B 256GB / 12GB,1160,1159,Telefonos,2,https://i.ibb.co/prJS1CGp/TELEFONO-SAMSUNG-GALAXY-S26-ULTRA-SM-5938-B.png,Producto Original Importado. No Incluye Cargador.
+103,Telefono Samsung Galaxy S26 Ultra SM-S948B 512GB / 12GB,1240,1239,Telefonos,2,https://i.ibb.co/prJS1CGp/TELEFONO-SAMSUNG-GALAXY-S26-ULTRA-SM-5938-B.png,Producto Original Importado. No Incluye Cargador.
+104,Telefono Iphone 14 128GB / 4GB,650,648,Telefonos,2,https://i.ibb.co/ccRNZw0L/TELEFONO-IPHONE-14-128-GB.png,Producto Original Importado - Funda & Templado de regalo - No Incluye Cargador.
+105,Telefono Iphone 15 128GB / 6GB,770,768,Telefonos,2,https://i.ibb.co/0pzRBSRH/TELEFONO-IPHONE-15-128-GB.png,Producto Original Importado - Funda & Templado de regalo - No Incluye Cargador.
+106,Telefono Iphone 17 256GB / 8GB,1000,1018,Telefonos,3,https://i.ibb.co/wrcSrkTB/TELEFONO-IPHONE-17-256-GB-8-GB-A3519.png,Producto Original Importado - Funda & Templado de regalo - No Incluye Cargador.
+107,Telefono Iphone 17 Pro 256GB / 12GB,1240,1239,Telefonos,3,https://i.ibb.co/nqLv0xs8/TELEFONO-IPHONE-17-PRO.png,Producto Original Importado - Funda & Templado de regalo - No Incluye Cargador.
+108,Telefono Iphone 17 Pro 512GB / 12GB,1450,1449,Telefonos,3,https://i.ibb.co/nqLv0xs8/TELEFONO-IPHONE-17-PRO.png,Producto Original Importado - Funda & Templado de regalo - No Incluye Cargador.
+109,Telefono Iphone 17 Pro Max 256GB / 12GB,1340,1339,Telefonos,3,https://i.ibb.co/WW5QsXD9/CELULAR-IPHONE-17-PRO-MAX-256-GB-12-GB.png,Producto Original Importado - Funda & Templado de regalo - No Incluye Cargador.
+110,Telefono Iphone 17 Pro Max 512GB / 12GB,1540,1539,Telefonos,3,https://i.ibb.co/WW5QsXD9/CELULAR-IPHONE-17-PRO-MAX-256-GB-12-GB.png,Producto Original Importado - Funda & Templado de regalo - No Incluye Cargador.
+111,Telefono Xiaomi Redmi 15C 256GB / 8GB,190,189,Telefonos,1,https://i.ibb.co/nNTf7XjH/CELULAR-XIAOMI-REDMI-15-C-16-GB-256-GB.png,Producto Original Importado - Funda & Templado de regalo - Incluye Cargador.
+112,Telefono Xiaomi Redmi Note 14 5G 256GB / 8GB,269,268,Telefonos,1,https://i.ibb.co/PZT2Bwbd/CELULAR-XIAOMI-REDMI-NOTE-14-5-G-256-GB-8-GB.png,Producto Original Importado - Incluye Cargador.
+113,Telefono Xiaomi Redmi Note 14 Pro Plus 5G 256GB / 8GB,369,368,Telefonos,1,https://i.ibb.co/1JQ31VJq/CELULAR-XIAOMI-REDMI-NOTE-14-PRO-PLUS-5-G-256-GB-8-GB.png,Producto Original Importado - Incluye Cargador.
+114,Telefono Motorola Moto G06 128GB / 4GB Dual Sim,195,194,Telefonos,5,https://i.ibb.co/5gnVXTzJ/TELEFONO-MOTO-G06-128-GB-4-GB-DUAL-SIM.png,Producto Original Importado - Incluye Cargador.
+115,Telefono Motorola Moto G15 256GB / 4GB,210,209,Telefonos,5,https://i.ibb.co/kNRL9cK/TELEFONO-MOTO-G15-256-GB-4-GB.png,Producto Original Importado - Incluye Cargador.
+116,Telefono Motorola Moto G56 256GB / 8GB,280,279,Telefonos,5,https://i.ibb.co/QF8zhKyR/TELEFONO-MOTO-G56-256-GB-8-GB.png,Producto Original Importado - Incluye Cargador.
+117,Telefono Motorola Moto Edge 60 Fusion 256GB / 8GB,350,378,Telefonos,5,https://i.ibb.co/4nRW6ZW4/TELEFONO-MOTO-EDGE-60-FUSION-256-GB-8-GB.png,Producto Original Importado - Incluye Cargador.
+118,Telefono Motorola Moto Edge 70 Fusion 256GB / 8GB,480,518,Telefonos,5,https://i.ibb.co/S7NfnMcv/TELEFONO-MOTO-EDGE-70-FUSION-256-GB-8-GB.png,Producto Original Importado - Incluye Cargador.
+119,Tablet Xiaomi Redmi Pad 2 11 Pulgadas 128GB / 4GB,270,269,Tablet,5,https://i.ibb.co/4nVx1D0Z/TABLET-XIAOMI-PAD-2-11-128-GB-4-GB.png,Producto Original Importado - Incluye Cargador.
