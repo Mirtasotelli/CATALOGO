@@ -83,7 +83,7 @@ id,nombre,precio_minorista,precio_mayorista,categoria,stock,imagen,descripcion
 82,Anafe Eléctrico Smartfy Quemador Espiral 1000W,14,13,Productos en Tendencia,8,https://i.ibb.co/nNm3LXZX/ANAFE-ELECTRICO-SMARTFY-QUEMADOR-ESPIRAL-1000-W.png,COMPLETAR INFORMACION.
 83,Tensiómetro Digital de Brazo Automatico Ecopower 2773,18,17,Productos en Tendencia,0,https://i.ibb.co/xqChphy5/TENSIOMETRO-DIGITAL-DE-BRAZO-ECOPOWER-2773-CON-LECTURA-POR-VOZ.png,Pantalla LCD - Memoria - Lectura por voz - Bateria de larga duración via USB-C / Pilas.
 84,Tensiómetro Digital de Muñeca Automatico Westinghouse,13,12,Productos en Tendencia,2,https://i.ibb.co/h1xtNdmL/TENSIOMETRO-DIGITAL-DE-MU-ECA-WESTINGHOUSE-WHBPM5001.png,Pantalla LCD - Memoria - Utiliza 2 pilas AAA (No incluidas).
-85,Consola Sony Playstation 5 SLIM 825GB (Version Digital),820,815,Productos en Tendencia,3,https://i.ibb.co/WpcsHJyH/CONSOLA-PLAYSTATION-5-SLIM-DIGITAL-825-GB.png,Producto Original Importado. Incluye un Joystick.
+85,Consola Sony Playstation 5 SLIM 825GB (Version Digital),810,815,Productos en Tendencia,3,https://i.ibb.co/WpcsHJyH/CONSOLA-PLAYSTATION-5-SLIM-DIGITAL-825-GB.png,Producto Original Importado. Incluye un Joystick.
 86,Consola Sony Playstation 5 SLIM 1TB Edicion Limitada (Con disco) Version Ghost of Yotei,865,864,Productos en Tendencia,0,https://i.ibb.co/Y4kZh362/CONSOLA-PS5-SLIM-EDICION-LIMITADA-CON-DISCO-1-TB-VERSION-GHOST-OF-YOTEI.png,Producto Original Importado.
 87,Consola Retro Game Stick M15 PRO,35,34,Productos en Tendencia,0,https://i.ibb.co/qMXR1qbp/CONSOLA-BLULORY-GAME-STICK-M15-PRO-2-CONTROLES.png,Incluye 2 Joystick Inalámbricos estilo PS5 - Conexión via HDMI - Mas de 20.000 juegos.
 88,Joystick Sony Dualsense PS5,110,94,Productos en Tendencia,10,https://i.ibb.co/HTDHJrSS/JOYSTICK-PS5-DUALSENSE.png,Producto original en caja cerrada - Diferentes Colores.
@@ -107,19 +107,19 @@ id,nombre,precio_minorista,precio_mayorista,categoria,stock,imagen,descripcion
 106,Telefono Samsung Galaxy S25 FE 512GB / 8GB,700,695,Telefonos,3,https://i.ibb.co/N6SbnML1/TELEFONO-SAMSUNG-S25-FE.png,Producto Original Importado. No Incluye Cargador.
 107,Telefono Samsung Galaxy S26 Ultra SM-S948B 256GB / 12GB,1060,1055,Telefonos,2,https://i.ibb.co/prJS1CGp/TELEFONO-SAMSUNG-GALAXY-S26-ULTRA-SM-5938-B.png,Producto Original Importado. No Incluye Cargador.
 108,Telefono Samsung Galaxy S26 Ultra SM-S948B 512GB / 12GB,1180,1175,Telefonos,2,https://i.ibb.co/prJS1CGp/TELEFONO-SAMSUNG-GALAXY-S26-ULTRA-SM-5938-B.png,Producto Original Importado. No Incluye Cargador.
-109,Telefono Iphone 14 128GB / 4GB,680,675,Telefonos,2,https://i.ibb.co/ccRNZw0L/TELEFONO-IPHONE-14-128-GB.png,Producto Original Importado - Funda & Templado de regalo - No Incluye Cargador.
-110,Telefono Iphone 15 128GB / 6GB,780,775,Telefonos,2,https://i.ibb.co/0pzRBSRH/TELEFONO-IPHONE-15-128-GB.png,Producto Original Importado - Funda & Templado de regalo - No Incluye Cargador.
+109,Telefono Iphone 14 128GB / 4GB,680,675,Telefonos,0,https://i.ibb.co/ccRNZw0L/TELEFONO-IPHONE-14-128-GB.png,Producto Original Importado - Funda & Templado de regalo - No Incluye Cargador.
+110,Telefono Iphone 15 128GB / 6GB,780,775,Telefonos,0,https://i.ibb.co/0pzRBSRH/TELEFONO-IPHONE-15-128-GB.png,Producto Original Importado - Funda & Templado de regalo - No Incluye Cargador.
 111,Telefono Iphone 17 256GB / 8GB,1030,1025,Telefonos,3,https://i.ibb.co/wrcSrkTB/TELEFONO-IPHONE-17-256-GB-8-GB-A3519.png,Producto Original Importado - Funda & Templado de regalo - No Incluye Cargador.
-112,Telefono Iphone 17 Pro 256GB / 12GB,1280,1275,Telefonos,3,https://i.ibb.co/nqLv0xs8/TELEFONO-IPHONE-17-PRO.png,Producto Original Importado - Funda & Templado de regalo - No Incluye Cargador.
+112,Telefono Iphone 17 Pro 256GB / 12GB,1280,1275,Telefonos,0,https://i.ibb.co/nqLv0xs8/TELEFONO-IPHONE-17-PRO.png,Producto Original Importado - Funda & Templado de regalo - No Incluye Cargador.
 113,Telefono Iphone 17 Pro 512GB / 12GB,1430,1449,Telefonos,0,https://i.ibb.co/nqLv0xs8/TELEFONO-IPHONE-17-PRO.png,Producto Original Importado - Funda & Templado de regalo - No Incluye Cargador.
-114,Telefono Iphone 17 Pro Max 256GB / 12GB,1370,1365,Telefonos,3,https://i.ibb.co/WW5QsXD9/CELULAR-IPHONE-17-PRO-MAX-256-GB-12-GB.png,Producto Original Importado - Funda & Templado de regalo - No Incluye Cargador.
+114,Telefono Iphone 17 Pro Max 256GB / 12GB,1295,1365,Telefonos,1,https://i.ibb.co/WW5QsXD9/CELULAR-IPHONE-17-PRO-MAX-256-GB-12-GB.png,Producto Original Importado - Funda & Templado de regalo - No Incluye Cargador.
 115,Telefono Iphone 17 Pro Max 512GB / 12GB,1530,1539,Telefonos,0,https://i.ibb.co/WW5QsXD9/CELULAR-IPHONE-17-PRO-MAX-256-GB-12-GB.png,Producto Original Importado - Funda & Templado de regalo - No Incluye Cargador.
-116,Telefono Xiaomi Redmi 15C 256GB / 8GB,190,189,Telefonos,1,https://i.ibb.co/nNTf7XjH/CELULAR-XIAOMI-REDMI-15-C-16-GB-256-GB.png,Producto Original Importado - Funda & Templado de regalo - Incluye Cargador.
+116,Telefono Xiaomi Redmi 15C 256GB / 8GB,190,189,Telefonos,0,https://i.ibb.co/nNTf7XjH/CELULAR-XIAOMI-REDMI-15-C-16-GB-256-GB.png,Producto Original Importado - Funda & Templado de regalo - Incluye Cargador.
 117,Telefono Xiaomi Redmi Note 14 5G 256GB / 8GB,269,268,Telefonos,1,https://i.ibb.co/PZT2Bwbd/CELULAR-XIAOMI-REDMI-NOTE-14-5-G-256-GB-8-GB.png,Producto Original Importado - Incluye Cargador.
 118,Telefono Xiaomi Redmi Note 14 Pro Plus 5G 256GB / 8GB,369,368,Telefonos,1,https://i.ibb.co/1JQ31VJq/CELULAR-XIAOMI-REDMI-NOTE-14-PRO-PLUS-5-G-256-GB-8-GB.png,Producto Original Importado - Incluye Cargador.
 119,Telefono Motorola Moto G06 128GB / 4GB Dual Sim,195,194,Telefonos,0,https://i.ibb.co/5gnVXTzJ/TELEFONO-MOTO-G06-128-GB-4-GB-DUAL-SIM.png,Producto Original Importado - Incluye Cargador.
 120,Telefono Motorola Moto G15 256GB / 4GB,210,209,Telefonos,0,https://i.ibb.co/kNRL9cK/TELEFONO-MOTO-G15-256-GB-4-GB.png,Producto Original Importado - Incluye Cargador.
-121,Telefono Motorola Moto G56 256GB / 8GB,290,285,Telefonos,5,https://i.ibb.co/QF8zhKyR/TELEFONO-MOTO-G56-256-GB-8-GB.png,Producto Original Importado - Incluye Cargador.
-122,Telefono Motorola Moto Edge 60 Fusion 256GB / 8GB,345,340,Telefonos,5,https://i.ibb.co/4nRW6ZW4/TELEFONO-MOTO-EDGE-60-FUSION-256-GB-8-GB.png,Producto Original Importado - Incluye Cargador.
-123,Telefono Motorola Moto Edge 70 Fusion 256GB / 8GB,460,455,Telefonos,5,https://i.ibb.co/S7NfnMcv/TELEFONO-MOTO-EDGE-70-FUSION-256-GB-8-GB.png,Producto Original Importado - Incluye Cargador.
+121,Telefono Motorola Moto G56 256GB / 8GB,290,285,Telefonos,0,https://i.ibb.co/QF8zhKyR/TELEFONO-MOTO-G56-256-GB-8-GB.png,Producto Original Importado - Incluye Cargador.
+122,Telefono Motorola Moto Edge 60 Fusion 256GB / 8GB,345,340,Telefonos,0,https://i.ibb.co/4nRW6ZW4/TELEFONO-MOTO-EDGE-60-FUSION-256-GB-8-GB.png,Producto Original Importado - Incluye Cargador.
+123,Telefono Motorola Moto Edge 70 Fusion 256GB / 8GB,470,455,Telefonos,5,https://i.ibb.co/S7NfnMcv/TELEFONO-MOTO-EDGE-70-FUSION-256-GB-8-GB.png,Producto Original Importado - Incluye Cargador.
 124,Tablet Xiaomi Redmi Pad 2 11 Pulgadas 128GB / 4GB,270,269,Tablet,5,https://i.ibb.co/4nVx1D0Z/TABLET-XIAOMI-PAD-2-11-128-GB-4-GB.png,Producto Original Importado - Incluye Cargador.
