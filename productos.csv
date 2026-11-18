@@ -12,7 +12,7 @@ id,nombre,precio_minorista,precio_mayorista,categoria,stock,imagen,descripcion
 11,Body Splash VS - Romantic (250ml),19.26,19,Body Splash,0,https://i.ibb.co/rfN5w9Vp/VICTORIA-SECRET-BODY-SPLASH-ROMANTIC-CLASICO-250-ML.png,Producto Original Importado.
 12,Body Splash VS - Vibrant Breeze (250ml),19.26,19,Body Splash,1,https://i.ibb.co/Vp2S85vH/BODY-SPLASH-VS-VIBRANT-BREEZE.png,Producto Original Importado.
 13,Body Splash VS - Aqua Kiss Shimmer (250ml),19.26,19,Body Splash,0,https://i.ibb.co/v4pYDDWZ/BODY-SPLASH-VS-AQUA-KISS-SHIMMER-250-ML.png,Producto Original Importado.
-14,Body Splash VS - Coconut Passion Shimmer (250ml),19.26,19,Body Splash,1,https://i.ibb.co/FGk37cp/BODY-SPLASH-VS-COCONUT-PASSION-SHIMMER-250-ML.png,Producto Original Importado.
+14,Body Splash VS - Coconut Passion Shimmer (250ml),19.26,19,Body Splash,0,https://i.ibb.co/FGk37cp/BODY-SPLASH-VS-COCONUT-PASSION-SHIMMER-250-ML.png,Producto Original Importado.
 15,Crema VS - Ginger Apple Jewel (236ml),19.26,19,Body Splash,1,https://i.ibb.co/B5BrmFmW/CREMA-VS-GINGER-APPLE-JEWEL-236-ML.png,Producto Original Importado.
 16,Crema VS - Midnight Bloom (236ml),19.26,19,Body Splash,2,https://i.ibb.co/1fC9LTwy/CREMA-VS-MIDNIGHT-BLOOM-236-ML.png,Producto Original Importado.
 17,Crema VS - Rush (236ml),19.26,19,Body Splash,1,https://i.ibb.co/TDXZW4TX/CREMA-VS-RUSH-236-ML.png,Producto Original Importado.
@@ -24,32 +24,32 @@ id,nombre,precio_minorista,precio_mayorista,categoria,stock,imagen,descripcion
 23,Perfume Lattafa Kit Asad Collection EDP (4x25ml),42,41,Perfumes Masculinos,0,https://i.ibb.co/XfV3LG8s/PERFUME-LATTAFA-ASAD-COLLECTION-KIT-4-X25-ML.png,Producto Original Importado.
 24,Perfume Lattafa Badee al Oud Honor & Glory EDP (100ml),37,36,Perfumes Masculinos,0,https://i.ibb.co/5gVpVb1M/PERFUME-LATTAFA-BADEE-AL-OUD-HONOR-GLORY-EDP-100-ML.png,Fragancia Inspirada en Oud for Greatness de Initio.
 25,Perfume Lattafa Eclaire EDP (100ml),35,34,Perfumes Femeninos,0,https://i.ibb.co/ycbZH82t/PERFUME-LATTAFA-ECLAIRE-100-ML.png,Perfume dulce irresistible con notas de caramelo leche tibia miel y vainilla.
-26,Perfume Lattafa Emaan EDP (100ml),31,30,Perfumes Femeninos,10,https://i.ibb.co/Lqg8375/PERFUME-LATTAFA-EMAAN-EDP-100-ML.png,Producto Original Importado.
+26,Perfume Lattafa Emaan EDP (100ml),31,30,Perfumes Femeninos,7,https://i.ibb.co/Lqg8375/PERFUME-LATTAFA-EMAAN-EDP-100-ML.png,Producto Original Importado.
 27,Perfume Lattafa Hayaati Al Maleky EDP (100ml),20,19,Perfumes Masculinos,0,https://i.ibb.co/vvVPcpx8/PERFUME-LATTAFA-HAYAATI-AL-MALEKY-EDP-100-ML.png,Fragancia Inspirada en Phantom de Paco Rabanne.
 28,Perfume Lattafa His Confession EDP (100ml),41,40,Perfumes Masculinos,0,https://i.ibb.co/q3YC97wX/PERFUME-LATTAFA-HIS-CONFESSION-EDP-100-ML.png,Producto Original Importado.
 29,Perfume Lattafa Her Confession EDP (100ml),41,40,Perfumes Femeninos,0,https://i.ibb.co/7d2bp5Qq/PERFUME-LATTAFA-HER-CONFESSION-EDP-100-ML.png,Producto Original Importado.
-30,Perfume Lattafa Khamrah Clásico EDP (100ml),34,33,Perfumes Masculinos,3,https://i.ibb.co/9knmz88p/PERFUME-LATTAFA-KHAMRAH-CLASICO-100-ML.png,Gourmand dulce oriental con canela vainilla haba tonka y madera calida especiada.
+30,Perfume Lattafa Khamrah Clásico EDP (100ml),34,33,Perfumes Masculinos,0,https://i.ibb.co/9knmz88p/PERFUME-LATTAFA-KHAMRAH-CLASICO-100-ML.png,Gourmand dulce oriental con canela vainilla haba tonka y madera calida especiada.
 31,Perfume Lattafa Khamrah Qahwa EDP (100ml),35,34,Perfumes Masculinos,0,https://i.ibb.co/93m70CSS/PERFUME-LATTAFA-KHAMRAH-QAHWA-100-ML.png,Aroma calido e intenso de cafe tostado canela y especias dulces orientales.
 32,Perfume Lattafa Fakhar Extrait EDP (100ml),31,30,Perfumes Masculinos,0,https://i.ibb.co/V0GzkK30/PERFUME-LATTAFA-FAKHAR-EXTRAIT-EDP-100-ML.png,Producto Original Importado.
 33,Perfume Lattafa Musamam EDP (100ml),37,36,Perfumes Masculinos,1,https://i.ibb.co/1YbTY7LM/PERFUME-LATTAFA-MUSAMAM-EDP-100-ML.png,Producto Original Importado.
 34,Perfume Lattafa Pride Nebras EDP (100ml),35,34,Perfumes Femeninos,0,https://i.ibb.co/Fb6XD2j7/PERFUME-LATTAFA-PRIDE-NEBRAS-EDP-100-ML.png,Producto Original Importado.
-35,Perfume Lattafa Yara Rosa EDP (100ml),31,30,Perfumes Femeninos,10,https://i.ibb.co/CKqSKj2S/PERFUME-LATTAFA-YARA-ROSA-100-ML.png,Fragancia viral dulce y cremosa con orquidea vainilla y notas atalcadas ultra femeninas.
+35,Perfume Lattafa Yara Rosa EDP (100ml),31,30,Perfumes Femeninos,7,https://i.ibb.co/CKqSKj2S/PERFUME-LATTAFA-YARA-ROSA-100-ML.png,Fragancia viral dulce y cremosa con orquidea vainilla y notas atalcadas ultra femeninas.
 36,Perfume Lattafa Yara Candy EDP (100ml),31,30,Perfumes Femeninos,1,https://i.ibb.co/ccmSqHyt/PERFUME-LATTAFA-YARA-CANDY-100-ML.png,Version golosa y frutal con notas de golosinas frutales jarabe de fresa y vainilla.
 37,Perfume Lattafa Yara Elixir EDP (100ml),39,38,Perfumes Femeninos,10,https://i.ibb.co/4Rzw1jHV/PERFUME-LATTAFA-YARA-ELIXIR-EDP-100-ML.png,Producto Original Importado.
 38,Perfume Lattafa Yara Moi EDP (100ml),31,30,Perfumes Femeninos,1,https://i.ibb.co/7Jbqgs3T/PERFUME-LATTAFA-YARA-MOI-EDP-100-ML.png,Producto Original Importado.
-39,Perfume Lattafa Kit Yara EDP (4x25ml),42,40,Perfumes Femeninos,3,https://i.ibb.co/0R69FNgy/PERFUME-KIT-LATTAFA-YARA-COLLECTION-4-X25-ML.png,Producto Original Importado.
-40,Perfume Armaf Odyssey Mandarin Sky EDP (100ml),36,35,Perfumes Masculinos,3,https://i.ibb.co/5hCBd1Y5/PERFUME-ARMAF-ODYSSEY-MANDARIN-SKY.png,Aroma masculino dulce citrico con mandarina caramelo salado y haba tonka.
-41,Perfume Armaf Odyssey Limoni Fresh Edition EDP (100ml),31,30,Perfumes Masculinos,1,https://i.ibb.co/nNSGTQKY/PERFUME-ARMAF-ODYSSEY-LIMONI-EDP-100-ML.png,Fragancia inspirada en Imagination de Louis Vuitton.
+39,Perfume Lattafa Kit Yara EDP (4x25ml),42,40,Perfumes Femeninos,2,https://i.ibb.co/0R69FNgy/PERFUME-KIT-LATTAFA-YARA-COLLECTION-4-X25-ML.png,Producto Original Importado.
+40,Perfume Armaf Odyssey Mandarin Sky EDP (100ml),36,35,Perfumes Masculinos,0,https://i.ibb.co/5hCBd1Y5/PERFUME-ARMAF-ODYSSEY-MANDARIN-SKY.png,Aroma masculino dulce citrico con mandarina caramelo salado y haba tonka.
+41,Perfume Armaf Odyssey Limoni Fresh Edition EDP (100ml),31,30,Perfumes Masculinos,0,https://i.ibb.co/nNSGTQKY/PERFUME-ARMAF-ODYSSEY-LIMONI-EDP-100-ML.png,Fragancia inspirada en Imagination de Louis Vuitton.
 42,Perfume Armaf Delight Yum Yum EDP (100ml),43,42,Perfumes Femeninos,0,https://i.ibb.co/M5ygJSyd/PERFUME-ARMAF-DELIGHTS-YUM-YUM-EDP-100-ML.png,Producto Original Importado.
 43,Perfume Afnan 9PM (Clásico) EDP (100ml),41,40,Perfumes Masculinos,0,https://i.ibb.co/gbGxQfvz/PERFUME-AFNAN-9-PM-CLASICO-100-ML.png,Perfume masculino nocturno dulce y seductor con manzana canela y vainilla intensa.
 44,Perfume Afnan 9PM Night Out Extrait EDP (100ml),57,56,Perfumes Masculinos,0,https://i.ibb.co/1fbdtHn1/PERFUME-AFNAN-9-PM-NIGHT-OUT-100-ML.png,Perfume masculino nocturno dulce y seductor.
 45,Perfume Al Haramain Amber oud Gold Edition EDP (120ml),59,58,Perfumes Masculinos,0,https://i.ibb.co/vxm7sb8z/PERFUME-AL-HARAMAIN-AMBER-OUD-GOLD-EDP-120-ML.png,Fragancia inspirada en Erba Pura de Xerjoff.
 46,Perfume Bharara King EDP (100ml),55,54,Perfumes Masculinos,0,https://i.ibb.co/JwzgXnGg/PERFUME-BHARARA-KING-100-ML-EDP.png,Fragancia de lujo potente con explosion citrica y fondo amaderado dulce de gran estela.
 47,Perfume Maison Alhambra Bad Femme EDP (100ml),27,26,Perfumes Femeninos,5,https://i.ibb.co/f5585xr/PERFUME-MAISON-ALHAMBRA-BAD-FEMME-EDP-100-ML.png,Producto Original Importado.
-48,Perfume Maison Alhambra Salvo Intense EDP (100ml),27,26,Perfumes Masculinos,1,https://i.ibb.co/cSvWTcB0/PERFUME-MAISON-ALHAMBRA-SALVO-INTENSE-EDP-100-ML.png,Producto Original Importado.
+48,Perfume Maison Alhambra Salvo Intense EDP (100ml),27,26,Perfumes Masculinos,0,https://i.ibb.co/cSvWTcB0/PERFUME-MAISON-ALHAMBRA-SALVO-INTENSE-EDP-100-ML.png,Producto Original Importado.
 49,Perfume Antonio Banderas Mediterráneo EDT (200ml),37,36,Perfumes Masculinos,1,https://i.ibb.co/Kzh71g09/PERFUME-ANTONIO-BANDERAS-MEDITERRANEO-EDT-200-ML.png,Producto Original Importado.
 50,Perfume Carolina Herrera 212 VIP NYC EDP (80ml),99.5,92,Perfumes Femeninos,0,https://i.ibb.co/VYFLbF8Z/PERFUME-212-VIP-GOLD-80-ML-EDP.png,Producto Original Importado.
-51,Perfume Carolina Herrera 212 WINS EDP (80ml),99.5,92,Perfumes Femeninos,2,https://i.ibb.co/cSym19qh/PERFUME-212-WINS-80-ML-EDP.png,Producto Original Importado.
+51,Perfume Carolina Herrera 212 WINS EDP (80ml),99.5,92,Perfumes Femeninos,1,https://i.ibb.co/cSym19qh/PERFUME-212-WINS-80-ML-EDP.png,Producto Original Importado.
 52,Perfume Hugo Boss Dark Blue EDT (75ml),46,45,Perfumes Masculinos,0,https://i.ibb.co/TxwGjPbZ/PERFUME-HUGO-BOSS-DARK-BLUE-EDT-75-ML.png,Producto Original Importado.
 53,Perfume Kenzo Homme Intense EDT (110ml),89,88,Perfumes Masculinos,4,https://i.ibb.co/DcWXTZH/PERFUME-KENZO-HOMME-INTENSE-110-ML-EDT.png,Producto Original Importado.
 54,Perfume Lancome La Vie Est Belle EDP (100ml),199,198,Perfumes Femeninos,1,https://i.ibb.co/VcCK901G/PERFUME-LANCOME-LA-VIE-EST-BELLE-EDP-100-ML.png,Producto Original Importado.
@@ -60,24 +60,24 @@ id,nombre,precio_minorista,precio_mayorista,categoria,stock,imagen,descripcion
 59,Crema Capilar Karseell Matizadora Purple Hair Mask 500ml,20,19,Productos en Tendencia,10,https://i.ibb.co/R42Q1ScB/KARSEELL-MATIZADORA.png,Producto Original Importado - Neutraliza tonos amarillos - Reaviva el rubio o el gris - Deja rubios platinados de revista.
 60,Oleo Aceite Capilar Karseell 50ml (Linea Clásica),12,11,Productos en Tendencia,30,https://i.ibb.co/60kvDtXw/KARSEELL-OLEO-CLASICO.png,Serum concentrado nutritivo que aporta brillo extremo elimina el frizz y protege la fibra.
 61,Oleo Aceite Capilar Karseell BNC Argan 60ml (Linea Nueva),16,15,Productos en Tendencia,30,https://i.ibb.co/Q7pM3wSM/KARSEELL-OLEO-BNC-ARGAN-60-ML-LINEA-NUEVA.png,Serum concentrado nutritivo que aporta brillo extremo elimina el frizz y protege la fibra.
-62,Kit Shampoo & Crema de Enjuague Karseell BNC Argan 500ml (Linea Nueva),33,32,Productos en Tendencia,8,https://i.ibb.co/1tR9Fg3J/KARSEEL-KIT-SHAMPOO-CREMA-DE-ENJUAGUE-BNC-ARGAN-500-ML-LINEA-NUEVA.png,Producto Original Importado.
+62,Kit Shampoo & Crema de Enjuague Karseell BNC Argan 500ml (Linea Nueva),33,32,Productos en Tendencia,0,https://i.ibb.co/1tR9Fg3J/KARSEEL-KIT-SHAMPOO-CREMA-DE-ENJUAGUE-BNC-ARGAN-500-ML-LINEA-NUEVA.png,Producto Original Importado.
 63,Kit Travel Karseell Crema Power Collagen 100ml + Shampoo 70ml + Crema de Enjuague 70ml,14,13,Productos en Tendencia,0,https://i.ibb.co/spCW1WW1/KARSEELL-KIT-TRAVEL-100-ML-70-ML-70-ML.png,Producto Original Importado.
-64,Serum facial Celimax Retinal Shot 15ML,27,26,Productos en Tendencia,10,https://i.ibb.co/1Gx6StVL/SERUM-FACIAL-CELIMAX-RETINAL-SHOT-15-ML.png,Producto Original Importado - Mejora Lineas de Expresión - Elimina manchas arrugas y poros.
+64,Serum facial Celimax Retinal Shot 15ML,27,26,Productos en Tendencia,3,https://i.ibb.co/1Gx6StVL/SERUM-FACIAL-CELIMAX-RETINAL-SHOT-15-ML.png,Producto Original Importado - Mejora Lineas de Expresión - Elimina manchas arrugas y poros.
 65,Plancha Alisadora de Cabello Home Land 45W,12,11,Productos en Tendencia,4,https://i.ibb.co/LhvzVzRW/PLANCHA-ALISADORA-DE-CABELLO-HOME-LAND-45-W.png,
 66,Cámara de Seguridad Foco Wifi,13,12,Productos en Tendencia,20,https://i.ibb.co/43SzQT6/CAMARA-DE-SEGURIDAD-FOCO.png,COMPLETAR INFORMACION.
-67,Cargador Cabezal Apple Original 20W Tipo C Ficha Americana (Patas Rectas),29,28,Productos en Tendencia,10,https://i.ibb.co/hF1ZgWB1/CARGADOR-ORIGINAL-APPLE-20-W-FICHA-ESTADOUNIDENSE-PATAS-RECTAS.png,Producto Original Importado.
+67,Cargador Cabezal Apple Original 20W Tipo C Ficha Americana (Patas Rectas),29,28,Productos en Tendencia,3,https://i.ibb.co/hF1ZgWB1/CARGADOR-ORIGINAL-APPLE-20-W-FICHA-ESTADOUNIDENSE-PATAS-RECTAS.png,Producto Original Importado.
 68,Auriculares Airpods Pro 2 Calidad Premium,19,17,Productos en Tendencia,30,https://i.ibb.co/Cs8L20pY/AURICULARES-AIRPODS-2-PRO-LINEA-PREMIUM.png,Auriculares inalambricos con excelente calidad de sonido estuche de carga y microfono.
 69,Auriculares Vincha Jbl Tune T520BT Bluetooth,41,40,Productos en Tendencia,0,https://i.ibb.co/9HRYxLv0/AURICULAR-JBL-T520-T-BLUETOOTH.png,Producto Original Importado.
-70,Auriculares Xiaomi Buds 6 Play (Negro-Blanco-Rosa),16,15,Productos en Tendencia,10,https://i.ibb.co/RkwVV3Yn/AURICULARES-BUDS-6-PLAY.png,Auriculares inalambricos con excelente calidad de sonido estuche de carga y microfono.
-71,Auriculares Xiaomi Buds 8 Lite (Negro-Blanco),27,26,Productos en Tendencia,1,https://i.ibb.co/6dsJHbZ/AURICULARES-BUDS-8-LITE.png,Auriculares inalambricos con excelente calidad de sonido estuche de carga y microfono.
+70,Auriculares Xiaomi Buds 6 Play (Negro-Blanco-Rosa),16,15,Productos en Tendencia,6,https://i.ibb.co/RkwVV3Yn/AURICULARES-BUDS-6-PLAY.png,Auriculares inalambricos con excelente calidad de sonido estuche de carga y microfono.
+71,Auriculares Xiaomi Buds 8 Lite (Negro-Blanco),27,26,Productos en Tendencia,6,https://i.ibb.co/6dsJHbZ/AURICULARES-BUDS-8-LITE.png,Auriculares inalambricos con excelente calidad de sonido estuche de carga y microfono.
 72,Repetidor Extensor Wifi Tp-Link RE200 AC750 Dual Band (2.4/5.8),25,24,Productos en Tendencia,3,https://i.ibb.co/FL9xxxPm/REPETIDOR-EXTENSOR-WIFI-TPLINK-RE200-AC750-DUAL-BAND.png,Fácil de instalar - Soporta velocidades de hasta 750Mbps.
 73,Parlante JBL Flip 7,110,109,Productos en Tendencia,0,https://i.ibb.co/Q3F99DV8/PARLANTE-JBL-FLIP-7.png,Parlante bluetooth compacto portatil resistente al agua con graves potentes.
-74,Amazon Echo Dot Alexa 5ta Generación,69,68,Productos en Tendencia,1,https://i.ibb.co/HDf6Qmhv/AMAZON-ECHO-DOT-ALEXA-5-TA-GENERACION.png,Modelo Nuevo & Mejorado - Multiples Funciones.
+74,Amazon Echo Dot Alexa 5ta Generación,69,68,Productos en Tendencia,0,https://i.ibb.co/HDf6Qmhv/AMAZON-ECHO-DOT-ALEXA-5-TA-GENERACION.png,Modelo Nuevo & Mejorado - Multiples Funciones.
 75,Mini Masajeador Eléctrico Corporal Multifuncional,3.93,4,Productos en Tendencia,20,https://i.ibb.co/5WDDzC0R/MINI-MASAJEADOR-ELECTRICO-PARCHE.png,Tipo Parche - 8 Modos de Masaje - Recargable - Ideal Deportistas.
 76,Tarjeta de Memoria Microsd Kingston 256GB,38,37,Productos en Tendencia,5,https://i.ibb.co/kgcRQPkN/TARJETA-MEMORIA-MICROSD-KINGSTON-256-GB-150-MBPS.png,Canvas Select Plus - 150Mbps de Velocidad.
 77,Tarjeta de Memoria Microsd Kingston 128GB,27,26,Productos en Tendencia,18,https://i.ibb.co/YFdVHjNS/TARJETA-MEMORIA-MICROSD-KINGSTON-128-GB-150-MBPS.png,Canvas Select Plus - 150Mbps de Velocidad.
 78,Power Bank Xiaomi Cargador Portatil 10.000 mhA 22.5W Azul oscuro,27,26,Productos en Tendencia,1,https://i.ibb.co/whzpkn2c/POWER-BANK-XIAOMI-10000-MHA-22-5-W-COLOR-AZUL-OSCURO.png,Viene equipado con 2 puertos de salida USB-A + 1 USB-C con protección contra sobrecargas.
-79,Power Bank Xiaomi Cargador Portatil 10.000 mhA 22.5W Blanco,27,26,Productos en Tendencia,4,https://i.ibb.co/jPP5B5Y6/POWER-BANK-XIAOMI-10000-MHA-22-5-W-COLOR-BLANCO.png,Viene equipado con 2 puertos de salida USB-A + 1 USB-C con protección contra sobrecargas.
+79,Power Bank Xiaomi Cargador Portatil 10.000 mhA 22.5W Blanco,27,26,Productos en Tendencia,1,https://i.ibb.co/jPP5B5Y6/POWER-BANK-XIAOMI-10000-MHA-22-5-W-COLOR-BLANCO.png,Viene equipado con 2 puertos de salida USB-A + 1 USB-C con protección contra sobrecargas.
 80,Termo Stanley Classic 950ml (Color Azul Marino),83,82,Productos en Tendencia,0,https://i.ibb.co/twnfKcb2/TERMO-STANLEY-CLASSIC-950-ML-COLOR-AZUL-MARINO.png,Producto Original Importado.
 81,Termo Stanley Mate System 1.2lts (Color Toast),99,98,Productos en Tendencia,1,https://i.ibb.co/rKyXVxXC/TERMO-STANLEY-MATE-SYSTEM-1-2-LTS-COLOR-TOAST.png,Producto Original Importado.
 82,Anafe Eléctrico Smartfy Quemador Espiral 1000W,14,13,Productos en Tendencia,8,https://i.ibb.co/nNm3LXZX/ANAFE-ELECTRICO-SMARTFY-QUEMADOR-ESPIRAL-1000-W.png,COMPLETAR INFORMACION.
